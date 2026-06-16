@@ -17,6 +17,7 @@ const NAV_ITEMS: Record<UserRole, { href: string; label: string; icon: React.Rea
     { href: '/dashboard/reports', label: 'Reports', icon: <ClipboardList size={15} /> },
     { href: '/dashboard/maintenance', label: 'Maintenance', icon: <Wrench size={15} /> },
     { href: '/dashboard/consumption', label: 'Consumption', icon: <Coffee size={15} /> },
+    { href: '/dashboard/security', label: 'Security', icon: <Shield size={15} /> },
     { href: '/dashboard/users', label: 'Staff Accounts', icon: <Users size={15} /> },
   ],
   manager: [
@@ -27,6 +28,7 @@ const NAV_ITEMS: Record<UserRole, { href: string; label: string; icon: React.Rea
     { href: '/dashboard/reports', label: 'Reports', icon: <ClipboardList size={15} /> },
     { href: '/dashboard/maintenance', label: 'Maintenance', icon: <Wrench size={15} /> },
     { href: '/dashboard/consumption', label: 'Consumption', icon: <Coffee size={15} /> },
+    { href: '/dashboard/security', label: 'Security', icon: <Shield size={15} /> },
   ],
   receptionist: [
     { href: '/dashboard/staff', label: 'Dashboard', icon: <LayoutDashboard size={15} /> },
@@ -46,6 +48,7 @@ const NAV_ITEMS: Record<UserRole, { href: string; label: string; icon: React.Rea
   ],
   security: [
     { href: '/dashboard/staff', label: 'Dashboard', icon: <LayoutDashboard size={15} /> },
+    { href: '/dashboard/security', label: 'Security', icon: <Shield size={15} /> },
     { href: '/dashboard/tasks', label: 'My Tasks', icon: <CheckSquare size={15} /> },
     { href: '/dashboard/reports', label: 'Reports', icon: <ClipboardList size={15} /> },
     { href: '/dashboard/maintenance', label: 'Maintenance', icon: <Wrench size={15} /> },
