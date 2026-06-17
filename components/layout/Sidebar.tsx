@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { UserRole, ROLE_CONFIG } from '@/lib/roles'
-import { LayoutDashboard, Users, LogOut, Building2, ChevronRight, Shield, BedDouble, UserPlus, ClipboardList, Wrench, Coffee, CheckSquare } from 'lucide-react'
+import { LayoutDashboard, Users, LogOut, Building2, ChevronRight, Shield, BedDouble, UserPlus, ClipboardList, Wrench, Coffee, CheckSquare, User } from 'lucide-react'
 
 interface SidebarProps { role: UserRole; fullName: string; email: string }
 
@@ -13,6 +13,7 @@ const NAV_ITEMS: Record<UserRole, { href: string; label: string; icon: React.Rea
     { href: '/dashboard/owner', label: 'Dashboard', icon: <LayoutDashboard size={15} /> },
     { href: '/dashboard/rooms', label: 'Rooms', icon: <BedDouble size={15} /> },
     { href: '/dashboard/checkin', label: 'Check-In', icon: <UserPlus size={15} /> },
+    { href: '/dashboard/guests', label: 'Guests', icon: <User size={15} /> },
     { href: '/dashboard/tasks', label: 'Tasks', icon: <CheckSquare size={15} /> },
     { href: '/dashboard/reports', label: 'Reports', icon: <ClipboardList size={15} /> },
     { href: '/dashboard/maintenance', label: 'Maintenance', icon: <Wrench size={15} /> },
@@ -24,6 +25,7 @@ const NAV_ITEMS: Record<UserRole, { href: string; label: string; icon: React.Rea
     { href: '/dashboard/manager', label: 'Dashboard', icon: <LayoutDashboard size={15} /> },
     { href: '/dashboard/rooms', label: 'Rooms', icon: <BedDouble size={15} /> },
     { href: '/dashboard/checkin', label: 'Check-In', icon: <UserPlus size={15} /> },
+    { href: '/dashboard/guests', label: 'Guests', icon: <User size={15} /> },
     { href: '/dashboard/tasks', label: 'Tasks', icon: <CheckSquare size={15} /> },
     { href: '/dashboard/reports', label: 'Reports', icon: <ClipboardList size={15} /> },
     { href: '/dashboard/maintenance', label: 'Maintenance', icon: <Wrench size={15} /> },
@@ -34,6 +36,7 @@ const NAV_ITEMS: Record<UserRole, { href: string; label: string; icon: React.Rea
     { href: '/dashboard/staff', label: 'Dashboard', icon: <LayoutDashboard size={15} /> },
     { href: '/dashboard/rooms', label: 'Rooms', icon: <BedDouble size={15} /> },
     { href: '/dashboard/checkin', label: 'Check-In', icon: <UserPlus size={15} /> },
+    { href: '/dashboard/guests', label: 'Guests', icon: <User size={15} /> },
     { href: '/dashboard/tasks', label: 'My Tasks', icon: <CheckSquare size={15} /> },
     { href: '/dashboard/reports', label: 'Reports', icon: <ClipboardList size={15} /> },
     { href: '/dashboard/maintenance', label: 'Maintenance', icon: <Wrench size={15} /> },
