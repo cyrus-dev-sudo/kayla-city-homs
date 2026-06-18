@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { Plus, X, Users, Car, Shield, AlertTriangle, LogOut } from 'lucide-react'
+import { sendNotification } from '@/lib/notify'
 
 const INPUT = { width: '100%', padding: '10px 14px', background: '#221f14', border: '1px solid #2e2b1e', borderRadius: '8px', color: '#f4e4c1', fontSize: '14px', outline: 'none', fontFamily: 'inherit' } as React.CSSProperties
 const LBL = { display: 'block', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: '#7a6e52', marginBottom: '6px' }
@@ -70,7 +71,16 @@ export default function SecurityContent({ visitors: initV, vehicles: initVeh, pa
   async function logIncident(e: React.FormEvent) {
     e.preventDefault(); setLoading(true)
     const { data } = await supabase.from('incident_reports').insert({ ...iForm, reported_by: currentUserId, manager_notified: true }).select('*, reported_by_profile:profiles!incident_reports_reported_by_fkey(full_name)').single()
-    if (data) { setIncidents(p => [data, ...p]); setShowModal(false); setIForm({ incident_type: 'Theft', location: '', description: '', persons_involved: '', action_taken: '', severity: 'low' }) }
+    if (data) {
+      setIncidents(p => [data, ...p]); setShowModal(false); setIForm({ incident_type: 'Theft', location: '', description: '', persons_involved: '', action_taken: '', severity: 'low' })
+      await sendNotification({
+        title: `Security Incident — ${iForm.incident_type}`,
+        message: `${iForm.severity.toUpperCase()} severity incident at ${iForm.location || 'unspecified location'}. ${iForm.description.slice(0, 80)}${iForm.description.length > 80 ? '...' : ''}`,
+        entity_type: 'incident',
+        entity_id: data.id,
+        roles: ['owner', 'manager'],
+      })
+    }
     setLoading(false)
   }
 

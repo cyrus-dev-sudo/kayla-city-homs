@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Plus, X, Wrench } from 'lucide-react'
+import { sendNotification } from '@/lib/notify'
 
 interface Request {
   id: string; issue_description: string; priority: string; status: string; created_at: string; notes?: string
@@ -28,13 +29,30 @@ export default function MaintenanceContent({ requests: init, rooms, canManage, c
     e.preventDefault()
     setLoading(true)
     const { data } = await supabase.from('maintenance_requests').insert({ ...form, reported_by: currentUserId }).select('*, rooms(room_number), reported_by_profile:profiles!maintenance_requests_reported_by_fkey(full_name)').single()
-    if (data) { setRequests(prev => [data, ...prev]); setShowModal(false); setForm({ room_id: rooms[0]?.id ?? '', issue_description: '', priority: 'medium', notes: '' }) }
+    if (data) {
+      setRequests(prev => [data, ...prev]); setShowModal(false); setForm({ room_id: rooms[0]?.id ?? '', issue_description: '', priority: 'medium', notes: '' })
+      await sendNotification({
+        title: `Maintenance Request — ${form.priority.toUpperCase()}`,
+        message: `${form.issue_description} (Room ${data.rooms?.room_number ?? '—'})`,
+        entity_type: 'maintenance',
+        entity_id: data.id,
+      })
+    }
     setLoading(false)
   }
 
   async function updateStatus(id: string, status: string) {
     await supabase.from('maintenance_requests').update({ status, resolved_at: status === 'fixed' ? new Date().toISOString() : null }).eq('id', id)
     setRequests(prev => prev.map(r => r.id === id ? { ...r, status } : r))
+    const req = requests.find(r => r.id === id)
+    if (req) {
+      await sendNotification({
+        title: `Maintenance ${status === 'fixed' ? 'Fixed' : 'In Progress'}`,
+        message: `${req.issue_description} has been marked as ${status.replace('_', ' ')}`,
+        entity_type: 'maintenance',
+        entity_id: id,
+      })
+    }
   }
 
   return (

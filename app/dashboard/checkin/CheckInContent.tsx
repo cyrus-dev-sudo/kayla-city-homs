@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { UserPlus, X, Pen, RotateCcw, LogOut, Search, User } from 'lucide-react'
+import { sendNotification } from '@/lib/notify'
 
 interface Room { id: string; room_number: string; category: string; rate: number }
 interface Guest { id: string; full_name: string; phone: string; id_number: string; nationality: string; email: string; address: string; id_type: string }
@@ -128,6 +129,14 @@ export default function CheckInContent({ availableRooms, activeReservations, sta
 
       await supabase.from('rooms').update({ status: 'occupied' }).eq('id', form.room_id)
 
+      // Send notification
+      await sendNotification({
+        title: 'Guest Checked In',
+        message: `${form.full_name} checked in to Room ${selectedRoom?.room_number}`,
+        entity_type: 'check_in',
+        entity_id: reservation.id,
+      })
+
       setSuccess(`${form.full_name} checked in to Room ${selectedRoom?.room_number}${existingGuest ? ' (returning guest)' : ''}`)
       setShowModal(false); setStep('search'); setIdSearch(''); setExistingGuest(null)
       setRooms(prev => prev.filter(r => r.id !== form.room_id))
@@ -153,6 +162,15 @@ export default function CheckInContent({ availableRooms, activeReservations, sta
     await supabase.from('reservations').update({ status: 'checked_out', checked_out_at: new Date().toISOString(), checked_out_by: staffId }).eq('id', reservationId)
     await supabase.from('rooms').update({ status: 'cleaning' }).eq('id', fullRes.room_id)
     setReservations(prev => prev.filter(r => r.id !== reservationId))
+
+    // Send notification
+    await sendNotification({
+      title: 'Guest Checked Out',
+      message: `${res.guests.full_name} checked out from Room ${res.rooms.room_number}`,
+      entity_type: 'check_out',
+      entity_id: reservationId,
+    })
+
     setSuccess(`${res.guests.full_name} checked out successfully`)
     setTimeout(() => setSuccess(''), 4000)
   }

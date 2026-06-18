@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { UserRole, ROLE_CONFIG } from '@/lib/roles'
-import { LayoutDashboard, Users, LogOut, Building2, ChevronRight, Shield, BedDouble, UserPlus, ClipboardList, Wrench, Coffee, CheckSquare, User } from 'lucide-react'
+import { LayoutDashboard, Users, LogOut, Building2, ChevronRight, Shield, BedDouble, UserPlus, ClipboardList, Wrench, Coffee, CheckSquare, User, Bell } from 'lucide-react'
 
 interface SidebarProps { role: UserRole; fullName: string; email: string }
 
@@ -19,6 +19,7 @@ const NAV_ITEMS: Record<UserRole, { href: string; label: string; icon: React.Rea
     { href: '/dashboard/maintenance', label: 'Maintenance', icon: <Wrench size={15} /> },
     { href: '/dashboard/consumption', label: 'Consumption', icon: <Coffee size={15} /> },
     { href: '/dashboard/security', label: 'Security', icon: <Shield size={15} /> },
+    { href: '/dashboard/notifications', label: 'Notifications', icon: <Bell size={15} /> },
     { href: '/dashboard/users', label: 'Staff Accounts', icon: <Users size={15} /> },
   ],
   manager: [

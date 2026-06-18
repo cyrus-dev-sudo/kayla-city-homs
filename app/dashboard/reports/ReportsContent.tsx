@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { UserRole } from '@/lib/roles'
 import { Plus, X, FileText } from 'lucide-react'
+import { sendNotification } from '@/lib/notify'
 
 interface Report {
   id: string; report_type: string; shift: string; report_date: string; created_at: string; notes?: string
@@ -82,6 +83,12 @@ export default function ReportsContent({ reports: initialReports, role, currentU
       setReports(prev => [data, ...prev])
       setShowModal(false)
       setForm({})
+      await sendNotification({
+        title: `${reportType.charAt(0).toUpperCase() + reportType.slice(1)} Report Submitted`,
+        message: `A ${reportType} report was submitted for the ${shift} shift`,
+        entity_type: 'report',
+        entity_id: data.id,
+      })
     }
     setLoading(false)
   }
