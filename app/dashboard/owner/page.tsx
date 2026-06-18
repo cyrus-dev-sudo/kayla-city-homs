@@ -8,34 +8,49 @@ export default async function OwnerDashboardPage() {
   const { user } = await requireRole(['owner'])
   const supabase = await createClient()
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .single()
+  const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single()
 
-  // Fetch staff stats
-  const { data: allStaff } = await supabase
-    .from('profiles')
-    .select('id, full_name, email, status, created_at')
+  const today = new Date().toISOString().split('T')[0]
 
-  const { data: allRoles } = await supabase
-    .from('user_roles')
-    .select('user_id, role, assigned_by, created_at')
+  const [staffRes, rolesRes, roomsRes, reservationsRes, tasksRes, reportsRes, maintenanceRes] = await Promise.all([
+    supabase.from('profiles').select('id, full_name, email, status, created_at'),
+    supabase.from('user_roles').select('user_id, role'),
+    supabase.from('rooms').select('id, status'),
+    supabase.from('reservations').select('id, status, checked_in_at').eq('status', 'checked_in'),
+    supabase.from('tasks').select('id, status').in('status', ['pending', 'in_progress']),
+    supabase.from('reports').select('id, created_at').gte('created_at', today),
+    supabase.from('maintenance_requests').select('id, status, priority').eq('status', 'open'),
+  ])
 
-  const staffWithRoles = (allStaff || []).map(s => ({
-    ...s,
-    role: allRoles?.find(r => r.user_id === s.id)?.role ?? null,
-  })).filter(s => s.id !== user.id)
+  const allStaff = (staffRes.data || []).filter(s => s.id !== user.id)
+  const allRoles = rolesRes.data || []
+  const staffWithRoles = allStaff.map(s => ({ ...s, role: allRoles.find(r => r.user_id === s.id)?.role ?? null }))
+
+  const rooms = roomsRes.data || []
+  const reservations = reservationsRes.data || []
+  const tasks = tasksRes.data || []
+  const reportsToday = reportsRes.data || []
+  const openMaintenance = maintenanceRes.data || []
+
+  const kpis = {
+    totalRooms: rooms.length,
+    occupiedRooms: rooms.filter(r => r.status === 'occupied').length,
+    availableRooms: rooms.filter(r => r.status === 'available').length,
+    cleaningRooms: rooms.filter(r => r.status === 'cleaning').length,
+    maintenanceRooms: rooms.filter(r => r.status === 'maintenance').length,
+    checkedInGuests: reservations.length,
+    pendingTasks: tasks.filter(t => t.status === 'pending').length,
+    inProgressTasks: tasks.filter(t => t.status === 'in_progress').length,
+    reportsToday: reportsToday.length,
+    openMaintenance: openMaintenance.length,
+    criticalMaintenance: openMaintenance.filter(m => m.priority === 'critical').length,
+    activeStaff: allStaff.filter(s => s.status === 'active').length,
+  }
 
   return (
     <DashboardShell role="owner" fullName={profile?.full_name ?? 'Owner'} email={profile?.email ?? ''}>
-      <Topbar
-        title="Owner Dashboard"
-        subtitle="Kayla City ApartHotel"
-        role="owner"
-      />
-      <OwnerDashboardContent staff={staffWithRoles} ownerName={profile?.full_name ?? 'Owner'} />
+      <Topbar title="Owner Dashboard" subtitle="Kayla City ApartHotel" role="owner" />
+      <OwnerDashboardContent staff={staffWithRoles} ownerName={profile?.full_name ?? 'Owner'} kpis={kpis} />
     </DashboardShell>
   )
 }
