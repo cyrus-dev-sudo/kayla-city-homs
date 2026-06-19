@@ -9,7 +9,7 @@ interface TopbarProps {
 }
 
 const ROLE_COLORS: Record<UserRole, string> = {
-  owner: '#d4ab5a', manager: '#60a5fa', receptionist: '#34d399', housekeeping: '#a78bfa', security: '#f87171',
+  owner: '#a8702e', manager: '#60a5fa', receptionist: '#34d399', housekeeping: '#a78bfa', security: '#f87171',
 }
 
 export default function Topbar({ title, subtitle, role, children }: TopbarProps) {
@@ -19,13 +19,13 @@ export default function Topbar({ title, subtitle, role, children }: TopbarProps)
   return (
     <header style={{
       height: '60px', padding: '0 32px',
-      borderBottom: '1px solid #2e2b1e',
+      borderBottom: '1px solid #2e2010',
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      background: '#1a1710', position: 'sticky', top: 0, zIndex: 30,
+      background: '#1a160c', position: 'sticky', top: 0, zIndex: 30,
     }}>
       <div>
-        <h1 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '18px', fontWeight: 600, color: '#f4e4c1', lineHeight: 1 }}>{title}</h1>
-        {subtitle && <p style={{ fontSize: '11px', color: '#5c481f', marginTop: '2px' }}>{subtitle}</p>}
+        <h1 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '18px', fontWeight: 600, color: '#f0d3a8', lineHeight: 1 }}>{title}</h1>
+        {subtitle && <p style={{ fontSize: '11px', color: '#7a6650', marginTop: '2px' }}>{subtitle}</p>}
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         {children}

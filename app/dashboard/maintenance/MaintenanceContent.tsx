@@ -15,8 +15,8 @@ interface Room { id: string; room_number: string }
 const PRIORITY = { low: '#4ade80', medium: '#fbbf24', high: '#f97316', critical: '#f43f5e' }
 const STATUS = { open: { color: '#f87171', label: 'Open' }, in_progress: { color: '#fbbf24', label: 'In Progress' }, fixed: { color: '#4ade80', label: 'Fixed' } }
 
-const INPUT = { width: '100%', padding: '10px 14px', background: '#221f14', border: '1px solid #2e2b1e', borderRadius: '8px', color: '#f4e4c1', fontSize: '14px', outline: 'none', fontFamily: 'inherit' } as React.CSSProperties
-const LBL = { display: 'block', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: '#7a6e52', marginBottom: '6px' }
+const INPUT = { width: '100%', padding: '10px 14px', background: '#221b10', border: '1px solid #2e2010', borderRadius: '8px', color: '#f0d3a8', fontSize: '14px', outline: 'none', fontFamily: 'inherit' } as React.CSSProperties
+const LBL = { display: 'block', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: '#7a6650', marginBottom: '6px' }
 
 export default function MaintenanceContent({ requests: init, rooms, canManage, currentUserId }: { requests: Request[]; rooms: Room[]; canManage: boolean; currentUserId: string }) {
   const [requests, setRequests] = useState(init)
@@ -59,27 +59,27 @@ export default function MaintenanceContent({ requests: init, rooms, canManage, c
     <div style={{ padding: '32px', animation: 'fadeIn 0.3s ease' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
         <div>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '28px', fontWeight: 600, color: '#f4e4c1' }}>Maintenance</h2>
-          <p style={{ fontSize: '13px', color: '#7a6e52', marginTop: '4px' }}>{requests.filter(r => r.status === 'open').length} open · {requests.filter(r => r.status === 'in_progress').length} in progress</p>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '28px', fontWeight: 600, color: '#f0d3a8' }}>Maintenance</h2>
+          <p style={{ fontSize: '13px', color: '#7a6650', marginTop: '4px' }}>{requests.filter(r => r.status === 'open').length} open · {requests.filter(r => r.status === 'in_progress').length} in progress</p>
         </div>
-        <button onClick={() => setShowModal(true)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 20px', background: 'linear-gradient(135deg, #b8923d, #d4ab5a)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer' }}>
+        <button onClick={() => setShowModal(true)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 20px', background: 'linear-gradient(135deg, #93602a, #a8702e)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer' }}>
           <Plus size={15} /> Report Issue
         </button>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        {requests.length === 0 && <div style={{ padding: '48px', textAlign: 'center', background: '#1a1710', border: '1px solid #2e2b1e', borderRadius: '12px' }}><Wrench size={36} color="#3a3728" style={{ margin: '0 auto 12px' }} /><p style={{ color: '#5c481f' }}>No maintenance requests</p></div>}
+        {requests.length === 0 && <div style={{ padding: '48px', textAlign: 'center', background: '#1a160c', border: '1px solid #2e2010', borderRadius: '12px' }}><Wrench size={36} color="#3a3220" style={{ margin: '0 auto 12px' }} /><p style={{ color: '#7a6650' }}>No maintenance requests</p></div>}
         {requests.map(req => {
-          const pc = PRIORITY[req.priority as keyof typeof PRIORITY] || '#d4ab5a'
+          const pc = PRIORITY[req.priority as keyof typeof PRIORITY] || '#a8702e'
           const sc = STATUS[req.status as keyof typeof STATUS] || STATUS.open
           return (
-            <div key={req.id} style={{ background: '#1a1710', border: '1px solid #2e2b1e', borderRadius: '12px', padding: '20px', display: 'flex', gap: '16px' }}>
+            <div key={req.id} style={{ background: '#1a160c', border: '1px solid #2e2010', borderRadius: '12px', padding: '20px', display: 'flex', gap: '16px' }}>
               <div style={{ width: '3px', alignSelf: 'stretch', background: pc, borderRadius: '2px', flexShrink: 0 }} />
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '8px' }}>
                   <div>
-                    <div style={{ fontSize: '14px', fontWeight: 600, color: '#c4b48a', marginBottom: '4px' }}>{req.issue_description}</div>
-                    <div style={{ fontSize: '11px', color: '#5c481f' }}>Room {req.rooms?.room_number ?? '—'} · by {req.reported_by_profile?.full_name} · {new Date(req.created_at).toLocaleDateString('en-GB')}</div>
+                    <div style={{ fontSize: '14px', fontWeight: 600, color: '#c4ab85', marginBottom: '4px' }}>{req.issue_description}</div>
+                    <div style={{ fontSize: '11px', color: '#7a6650' }}>Room {req.rooms?.room_number ?? '—'} · by {req.reported_by_profile?.full_name} · {new Date(req.created_at).toLocaleDateString('en-GB')}</div>
                   </div>
                   <div style={{ display: 'flex', gap: '6px' }}>
                     <span style={{ padding: '3px 8px', background: `${pc}15`, border: `1px solid ${pc}25`, borderRadius: '100px', fontSize: '10px', fontWeight: 700, color: pc, textTransform: 'capitalize' }}>{req.priority}</span>
@@ -100,35 +100,35 @@ export default function MaintenanceContent({ requests: init, rooms, canManage, c
 
       {showModal && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)', zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
-          <div style={{ background: '#1a1710', border: '1px solid #2e2b1e', borderRadius: '16px', padding: '32px', width: '100%', maxWidth: '440px' }}>
+          <div style={{ background: '#1a160c', border: '1px solid #2e2010', borderRadius: '16px', padding: '32px', width: '100%', maxWidth: '440px' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
-              <div><div style={{ height: '2px', background: 'linear-gradient(90deg, #d4ab5a, transparent)', marginBottom: '16px', borderRadius: '2px' }} /><h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '20px', fontWeight: 600, color: '#f4e4c1' }}>Report Issue</h3></div>
-              <button onClick={() => setShowModal(false)} style={{ background: '#221f14', border: '1px solid #2e2b1e', borderRadius: '8px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#7a6e52' }}><X size={14} /></button>
+              <div><div style={{ height: '2px', background: 'linear-gradient(90deg, #a8702e, transparent)', marginBottom: '16px', borderRadius: '2px' }} /><h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '20px', fontWeight: 600, color: '#f0d3a8' }}>Report Issue</h3></div>
+              <button onClick={() => setShowModal(false)} style={{ background: '#221b10', border: '1px solid #2e2010', borderRadius: '8px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#7a6650' }}><X size={14} /></button>
             </div>
             <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                 <div><label style={LBL}>Room</label>
-                  <select value={form.room_id} onChange={e => setForm(f => ({ ...f, room_id: e.target.value }))} style={{ ...INPUT, appearance: 'none' }} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'}>
+                  <select value={form.room_id} onChange={e => setForm(f => ({ ...f, room_id: e.target.value }))} style={{ ...INPUT, appearance: 'none' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'}>
                     {rooms.map(r => <option key={r.id} value={r.id}>Room {r.room_number}</option>)}
                   </select>
                 </div>
                 <div><label style={LBL}>Priority</label>
-                  <select value={form.priority} onChange={e => setForm(f => ({ ...f, priority: e.target.value }))} style={{ ...INPUT, appearance: 'none' }} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'}>
+                  <select value={form.priority} onChange={e => setForm(f => ({ ...f, priority: e.target.value }))} style={{ ...INPUT, appearance: 'none' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'}>
                     {Object.keys(PRIORITY).map(p => <option key={p} value={p}>{p.charAt(0).toUpperCase() + p.slice(1)}</option>)}
                   </select>
                 </div>
               </div>
-              <div><label style={LBL}>Issue Description *</label><textarea required value={form.issue_description} onChange={e => setForm(f => ({ ...f, issue_description: e.target.value }))} placeholder="Describe the issue..." rows={3} style={{ ...INPUT, resize: 'vertical' }} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
-              <div><label style={LBL}>Notes</label><textarea value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} placeholder="Additional notes..." rows={2} style={{ ...INPUT, resize: 'vertical' }} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
+              <div><label style={LBL}>Issue Description *</label><textarea required value={form.issue_description} onChange={e => setForm(f => ({ ...f, issue_description: e.target.value }))} placeholder="Describe the issue..." rows={3} style={{ ...INPUT, resize: 'vertical' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+              <div><label style={LBL}>Notes</label><textarea value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} placeholder="Additional notes..." rows={2} style={{ ...INPUT, resize: 'vertical' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
               <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
-                <button type="button" onClick={() => setShowModal(false)} style={{ flex: 1, padding: '11px', background: 'transparent', border: '1px solid #2e2b1e', borderRadius: '8px', color: '#7a6e52', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
-                <button type="submit" disabled={loading} style={{ flex: 2, padding: '11px', background: 'linear-gradient(135deg, #b8923d, #d4ab5a)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit' }}>{loading ? 'Submitting...' : 'Submit Request'}</button>
+                <button type="button" onClick={() => setShowModal(false)} style={{ flex: 1, padding: '11px', background: 'transparent', border: '1px solid #2e2010', borderRadius: '8px', color: '#7a6650', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
+                <button type="submit" disabled={loading} style={{ flex: 2, padding: '11px', background: 'linear-gradient(135deg, #93602a, #a8702e)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit' }}>{loading ? 'Submitting...' : 'Submit Request'}</button>
               </div>
             </form>
           </div>
         </div>
       )}
-      <style>{`@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}} select option{background:#221f14;color:#f4e4c1} textarea::placeholder{color:#3a3728}`}</style>
+      <style>{`@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}} select option{background:#221b10;color:#f0d3a8} textarea::placeholder{color:#3a3220}`}</style>
     </div>
   )
 }

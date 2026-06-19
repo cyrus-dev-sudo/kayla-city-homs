@@ -55,7 +55,7 @@ export default function ResetPasswordPage() {
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <div style={{
             width: '60px', height: '60px',
-            background: 'linear-gradient(135deg, #b8923d, #d4ab5a)',
+            background: 'linear-gradient(135deg, #93602a, #a8702e)',
             borderRadius: '16px',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             margin: '0 auto 20px',
@@ -65,24 +65,24 @@ export default function ResetPasswordPage() {
           </div>
           <h1 style={{
             fontFamily: "'Cormorant Garamond', Georgia, serif",
-            fontSize: '24px', fontWeight: 600, color: '#f4e4c1',
+            fontSize: '24px', fontWeight: 600, color: '#f0d3a8',
           }}>
             Reset Password
           </h1>
-          <p style={{ fontSize: '13px', color: '#7a6e52', marginTop: '6px' }}>
+          <p style={{ fontSize: '13px', color: '#7a6650', marginTop: '6px' }}>
             Kayla City ApartHotel
           </p>
         </div>
 
         <div style={{
-          background: '#1a1710',
-          border: '1px solid #2e2b1e',
+          background: '#1a160c',
+          border: '1px solid #2e2010',
           borderRadius: '16px',
           padding: '32px',
         }}>
           <div style={{
             height: '2px',
-            background: 'linear-gradient(90deg, #d4ab5a, transparent)',
+            background: 'linear-gradient(90deg, #a8702e, transparent)',
             borderRadius: '2px',
             marginBottom: '28px',
           }} />
@@ -99,11 +99,11 @@ export default function ResetPasswordPage() {
               }}>
                 <Mail size={24} color="#4ade80" />
               </div>
-              <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#f4e4c1', marginBottom: '8px' }}>
+              <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#f0d3a8', marginBottom: '8px' }}>
                 Check your email
               </h3>
-              <p style={{ fontSize: '13px', color: '#7a6e52', lineHeight: 1.6 }}>
-                We sent a password reset link to <strong style={{ color: '#c4b48a' }}>{email}</strong>.
+              <p style={{ fontSize: '13px', color: '#7a6650', lineHeight: 1.6 }}>
+                We sent a password reset link to <strong style={{ color: '#c4ab85' }}>{email}</strong>.
                 Check your inbox and follow the instructions.
               </p>
               <Link href="/login" style={{
@@ -112,7 +112,7 @@ export default function ResetPasswordPage() {
                 gap: '6px',
                 marginTop: '24px',
                 fontSize: '13px',
-                color: '#8a6c2e',
+                color: '#93602a',
                 textDecoration: 'none',
               }}>
                 <ArrowLeft size={14} /> Back to sign in
@@ -120,7 +120,7 @@ export default function ResetPasswordPage() {
             </div>
           ) : (
             <>
-              <p style={{ fontSize: '13px', color: '#7a6e52', marginBottom: '24px', lineHeight: 1.6 }}>
+              <p style={{ fontSize: '13px', color: '#7a6650', marginBottom: '24px', lineHeight: 1.6 }}>
                 Enter your email address and we'll send you a link to reset your password.
               </p>
 
@@ -144,7 +144,7 @@ export default function ResetPasswordPage() {
                     display: 'block',
                     fontSize: '11px', fontWeight: 600,
                     letterSpacing: '0.1em', textTransform: 'uppercase',
-                    color: '#7a6e52', marginBottom: '8px',
+                    color: '#7a6650', marginBottom: '8px',
                   }}>
                     Email Address
                   </label>
@@ -156,14 +156,14 @@ export default function ResetPasswordPage() {
                     placeholder="your@email.com"
                     style={{
                       width: '100%', padding: '11px 14px',
-                      background: '#221f14',
-                      border: '1px solid #2e2b1e',
+                      background: '#221b10',
+                      border: '1px solid #2e2010',
                       borderRadius: '8px',
-                      color: '#f4e4c1', fontSize: '14px',
+                      color: '#f0d3a8', fontSize: '14px',
                       outline: 'none', fontFamily: 'inherit',
                     }}
-                    onFocus={e => e.target.style.borderColor = '#b8923d'}
-                    onBlur={e => e.target.style.borderColor = '#2e2b1e'}
+                    onFocus={e => e.target.style.borderColor = '#93602a'}
+                    onBlur={e => e.target.style.borderColor = '#2e2010'}
                   />
                 </div>
 
@@ -172,8 +172,8 @@ export default function ResetPasswordPage() {
                   disabled={loading}
                   style={{
                     width: '100%', padding: '12px',
-                    background: loading ? '#3d3016' : 'linear-gradient(135deg, #b8923d, #d4ab5a)',
-                    color: loading ? '#7a6e52' : '#111008',
+                    background: loading ? '#3d3016' : 'linear-gradient(135deg, #93602a, #a8702e)',
+                    color: loading ? '#7a6650' : '#111008',
                     fontWeight: 700, fontSize: '13px',
                     letterSpacing: '0.05em', textTransform: 'uppercase',
                     border: 'none', borderRadius: '8px',
@@ -188,7 +188,7 @@ export default function ResetPasswordPage() {
               <div style={{ textAlign: 'center', marginTop: '20px' }}>
                 <Link href="/login" style={{
                   display: 'inline-flex', alignItems: 'center', gap: '6px',
-                  fontSize: '13px', color: '#8a6c2e', textDecoration: 'none',
+                  fontSize: '13px', color: '#93602a', textDecoration: 'none',
                 }}>
                   <ArrowLeft size={14} /> Back to sign in
                 </Link>
@@ -197,7 +197,7 @@ export default function ResetPasswordPage() {
           )}
         </div>
       </div>
-      <style>{`input::placeholder { color: #3a3728; }`}</style>
+      <style>{`input::placeholder { color: #3a3220; }`}</style>
     </div>
   )
 }

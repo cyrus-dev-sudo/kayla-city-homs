@@ -24,17 +24,17 @@ export default function UnauthorizedPage() {
         </div>
         <h1 style={{
           fontFamily: "'Cormorant Garamond', Georgia, serif",
-          fontSize: '28px', fontWeight: 600, color: '#f4e4c1', marginBottom: '12px',
+          fontSize: '28px', fontWeight: 600, color: '#f0d3a8', marginBottom: '12px',
         }}>
           Access Denied
         </h1>
-        <p style={{ fontSize: '14px', color: '#7a6e52', lineHeight: 1.6, marginBottom: '28px' }}>
+        <p style={{ fontSize: '14px', color: '#7a6650', lineHeight: 1.6, marginBottom: '28px' }}>
           You don't have permission to view this page. Contact the hotel owner if you believe this is a mistake.
         </p>
         <Link href="/" style={{
           display: 'inline-flex', alignItems: 'center', gap: '8px',
           padding: '10px 24px',
-          background: 'linear-gradient(135deg, #b8923d, #d4ab5a)',
+          background: 'linear-gradient(135deg, #93602a, #a8702e)',
           color: '#111008', fontWeight: 700, fontSize: '13px',
           borderRadius: '8px', textDecoration: 'none',
         }}>

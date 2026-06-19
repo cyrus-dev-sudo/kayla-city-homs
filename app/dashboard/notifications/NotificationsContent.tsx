@@ -48,11 +48,11 @@ export default function NotificationsContent({ notifications: init }: { notifica
     <div style={{ padding: '32px', animation: 'fadeIn 0.3s ease' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
         <div>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '28px', fontWeight: 600, color: '#f4e4c1' }}>Notifications</h2>
-          <p style={{ fontSize: '13px', color: '#7a6e52', marginTop: '4px' }}>{unreadCount} unread · {notifications.length} total</p>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '28px', fontWeight: 600, color: '#f0d3a8' }}>Notifications</h2>
+          <p style={{ fontSize: '13px', color: '#7a6650', marginTop: '4px' }}>{unreadCount} unread · {notifications.length} total</p>
         </div>
         {unreadCount > 0 && (
-          <button onClick={markAllRead} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 16px', background: 'transparent', border: '1px solid #2e2b1e', borderRadius: '8px', color: '#7a6e52', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>
+          <button onClick={markAllRead} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 16px', background: 'transparent', border: '1px solid #2e2010', borderRadius: '8px', color: '#7a6650', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>
             <CheckCheck size={14} /> Mark all read
           </button>
         )}
@@ -63,9 +63,9 @@ export default function NotificationsContent({ notifications: init }: { notifica
         {(['all', 'unread'] as const).map(f => (
           <button key={f} onClick={() => setFilter(f)} style={{
             padding: '6px 14px', background: filter === f ? 'rgba(212,171,90,0.1)' : 'transparent',
-            border: `1px solid ${filter === f ? 'rgba(212,171,90,0.3)' : '#2e2b1e'}`,
+            border: `1px solid ${filter === f ? 'rgba(212,171,90,0.3)' : '#2e2010'}`,
             borderRadius: '100px', fontSize: '12px', fontWeight: 600,
-            color: filter === f ? '#d4ab5a' : '#5c481f', cursor: 'pointer', fontFamily: 'inherit',
+            color: filter === f ? '#a8702e' : '#7a6650', cursor: 'pointer', fontFamily: 'inherit',
             textTransform: 'capitalize',
           }}>
             {f} {f === 'unread' && unreadCount > 0 ? `(${unreadCount})` : ''}
@@ -73,34 +73,34 @@ export default function NotificationsContent({ notifications: init }: { notifica
         ))}
       </div>
 
-      <div style={{ background: '#1a1710', border: '1px solid #2e2b1e', borderRadius: '12px', overflow: 'hidden' }}>
+      <div style={{ background: '#1a160c', border: '1px solid #2e2010', borderRadius: '12px', overflow: 'hidden' }}>
         {filtered.length === 0 ? (
           <div style={{ padding: '64px', textAlign: 'center' }}>
-            <Bell size={36} color="#3a3728" style={{ margin: '0 auto 12px' }} />
-            <p style={{ color: '#5c481f', fontSize: '14px' }}>{filter === 'unread' ? 'No unread notifications' : 'No notifications yet'}</p>
+            <Bell size={36} color="#3a3220" style={{ margin: '0 auto 12px' }} />
+            <p style={{ color: '#7a6650', fontSize: '14px' }}>{filter === 'unread' ? 'No unread notifications' : 'No notifications yet'}</p>
           </div>
         ) : (
           filtered.map((n, i) => {
-            const color = ENTITY_COLORS[n.entity_type || ''] || '#d4ab5a'
+            const color = ENTITY_COLORS[n.entity_type || ''] || '#a8702e'
             return (
               <div key={n.id} style={{
                 padding: '16px 20px',
-                borderBottom: i < filtered.length - 1 ? '1px solid #2e2b1e' : 'none',
+                borderBottom: i < filtered.length - 1 ? '1px solid #2e2010' : 'none',
                 background: n.read ? 'transparent' : 'rgba(212,171,90,0.02)',
                 display: 'flex', gap: '14px', alignItems: 'flex-start',
                 transition: 'background 0.15s',
               }}
-                onMouseEnter={e => (e.currentTarget.style.background = '#221f14')}
+                onMouseEnter={e => (e.currentTarget.style.background = '#221b10')}
                 onMouseLeave={e => (e.currentTarget.style.background = n.read ? 'transparent' : 'rgba(212,171,90,0.02)')}
               >
-                <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: n.read ? '#2e2b1e' : color, marginTop: '6px', flexShrink: 0, boxShadow: n.read ? 'none' : `0 0 6px ${color}60` }} />
+                <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: n.read ? '#2e2010' : color, marginTop: '6px', flexShrink: 0, boxShadow: n.read ? 'none' : `0 0 6px ${color}60` }} />
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: '14px', fontWeight: n.read ? 400 : 600, color: n.read ? '#7a6e52' : '#c4b48a', marginBottom: '4px' }}>{n.title}</div>
-                  <div style={{ fontSize: '13px', color: '#5c481f', lineHeight: 1.5 }}>{n.message}</div>
-                  <div style={{ fontSize: '11px', color: '#3a3728', marginTop: '6px' }}>{timeAgo(n.created_at)}</div>
+                  <div style={{ fontSize: '14px', fontWeight: n.read ? 400 : 600, color: n.read ? '#7a6650' : '#c4ab85', marginBottom: '4px' }}>{n.title}</div>
+                  <div style={{ fontSize: '13px', color: '#7a6650', lineHeight: 1.5 }}>{n.message}</div>
+                  <div style={{ fontSize: '11px', color: '#3a3220', marginTop: '6px' }}>{timeAgo(n.created_at)}</div>
                 </div>
                 {!n.read && (
-                  <button onClick={() => markRead(n.id)} style={{ display: 'flex', alignItems: 'center', gap: '4px', padding: '4px 10px', background: 'transparent', border: '1px solid #2e2b1e', borderRadius: '6px', fontSize: '11px', color: '#5c481f', cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0 }}>
+                  <button onClick={() => markRead(n.id)} style={{ display: 'flex', alignItems: 'center', gap: '4px', padding: '4px 10px', background: 'transparent', border: '1px solid #2e2010', borderRadius: '6px', fontSize: '11px', color: '#7a6650', cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0 }}>
                     <Check size={11} /> Read
                   </button>
                 )}

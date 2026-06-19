@@ -26,10 +26,10 @@ const ROLE_COLORS: Record<string, string> = {
 const INPUT_STYLE = {
   width: '100%',
   padding: '11px 14px',
-  background: '#221f14',
-  border: '1px solid #2e2b1e',
+  background: '#221b10',
+  border: '1px solid #2e2010',
   borderRadius: '8px',
-  color: '#f4e4c1',
+  color: '#f0d3a8',
   fontSize: '14px',
   outline: 'none',
   fontFamily: 'inherit',
@@ -42,7 +42,7 @@ const LABEL_STYLE = {
   fontWeight: 600,
   letterSpacing: '0.1em',
   textTransform: 'uppercase',
-  color: '#7a6e52',
+  color: '#7a6650',
   marginBottom: '8px',
 } as React.CSSProperties
 
@@ -135,11 +135,11 @@ export default function UserManagementContent({ staff: initialStaff }: { staff: 
         <div>
           <h2 style={{
             fontFamily: "'Cormorant Garamond', Georgia, serif",
-            fontSize: '28px', fontWeight: 600, color: '#f4e4c1',
+            fontSize: '28px', fontWeight: 600, color: '#f0d3a8',
           }}>
             Staff Accounts
           </h2>
-          <p style={{ fontSize: '13px', color: '#7a6e52', marginTop: '4px' }}>
+          <p style={{ fontSize: '13px', color: '#7a6650', marginTop: '4px' }}>
             {staff.length} registered · {staff.filter(s => s.status === 'active').length} active
           </p>
         </div>
@@ -148,7 +148,7 @@ export default function UserManagementContent({ staff: initialStaff }: { staff: 
           style={{
             display: 'flex', alignItems: 'center', gap: '8px',
             padding: '10px 20px',
-            background: 'linear-gradient(135deg, #b8923d, #d4ab5a)',
+            background: 'linear-gradient(135deg, #93602a, #a8702e)',
             color: '#111008', fontWeight: 700, fontSize: '13px',
             letterSpacing: '0.04em',
             border: 'none', borderRadius: '8px',
@@ -176,56 +176,56 @@ export default function UserManagementContent({ staff: initialStaff }: { staff: 
 
       {/* Search */}
       <div style={{ position: 'relative', marginBottom: '20px', maxWidth: '360px' }}>
-        <Search size={14} color="#5c481f" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
+        <Search size={14} color="#7a6650" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
         <input
           value={search}
           onChange={e => setSearch(e.target.value)}
           placeholder="Search staff..."
           style={{ ...INPUT_STYLE, paddingLeft: '36px' }}
-          onFocus={e => e.target.style.borderColor = '#b8923d'}
-          onBlur={e => e.target.style.borderColor = '#2e2b1e'}
+          onFocus={e => e.target.style.borderColor = '#93602a'}
+          onBlur={e => e.target.style.borderColor = '#2e2010'}
         />
       </div>
 
       {/* Table */}
       <div style={{
-        background: '#1a1710',
-        border: '1px solid #2e2b1e',
+        background: '#1a160c',
+        border: '1px solid #2e2010',
         borderRadius: '12px',
         overflow: 'hidden',
       }}>
         {filtered.length === 0 ? (
           <div style={{ padding: '64px 24px', textAlign: 'center' }}>
-            <Users size={40} color="#3a3728" style={{ margin: '0 auto 16px' }} />
-            <p style={{ fontSize: '15px', color: '#5c481f', fontWeight: 500 }}>
+            <Users size={40} color="#3a3220" style={{ margin: '0 auto 16px' }} />
+            <p style={{ fontSize: '15px', color: '#7a6650', fontWeight: 500 }}>
               {search ? 'No staff match your search' : 'No staff accounts yet'}
             </p>
-            <p style={{ fontSize: '12px', color: '#3a3728', marginTop: '6px' }}>
+            <p style={{ fontSize: '12px', color: '#3a3220', marginTop: '6px' }}>
               {search ? 'Try a different name or role' : 'Click "Add Staff" to create the first account'}
             </p>
           </div>
         ) : (
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
-              <tr style={{ background: '#221f14' }}>
+              <tr style={{ background: '#221b10' }}>
                 {['Staff Member', 'Role', 'Status', 'Phone', 'Joined', 'Actions'].map(h => (
                   <th key={h} style={{
                     padding: '11px 16px', textAlign: 'left',
                     fontSize: '10px', fontWeight: 700,
                     letterSpacing: '0.1em', textTransform: 'uppercase',
-                    color: '#5c481f', borderBottom: '1px solid #2e2b1e',
+                    color: '#7a6650', borderBottom: '1px solid #2e2010',
                   }}>{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {filtered.map(member => {
-                const roleColor = member.role ? ROLE_COLORS[member.role] || '#d4ab5a' : '#5c481f'
+                const roleColor = member.role ? ROLE_COLORS[member.role] || '#a8702e' : '#7a6650'
                 const roleLabel = member.role ? ROLE_CONFIG[member.role].label : 'No Role'
                 return (
                   <tr key={member.id}
-                    style={{ borderBottom: '1px solid #2e2b1e', transition: 'background 0.15s' }}
-                    onMouseEnter={e => (e.currentTarget.style.background = '#221f14')}
+                    style={{ borderBottom: '1px solid #2e2010', transition: 'background 0.15s' }}
+                    onMouseEnter={e => (e.currentTarget.style.background = '#221b10')}
                     onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
                   >
                     <td style={{ padding: '14px 16px' }}>
@@ -241,8 +241,8 @@ export default function UserManagementContent({ staff: initialStaff }: { staff: 
                           {member.full_name.charAt(0).toUpperCase()}
                         </div>
                         <div>
-                          <div style={{ fontSize: '13px', fontWeight: 600, color: '#c4b48a' }}>{member.full_name}</div>
-                          <div style={{ fontSize: '11px', color: '#5c481f' }}>{member.email}</div>
+                          <div style={{ fontSize: '13px', fontWeight: 600, color: '#c4ab85' }}>{member.full_name}</div>
+                          <div style={{ fontSize: '11px', color: '#7a6650' }}>{member.email}</div>
                         </div>
                       </div>
                     </td>
@@ -270,10 +270,10 @@ export default function UserManagementContent({ staff: initialStaff }: { staff: 
                         {member.status === 'active' ? 'Active' : 'Inactive'}
                       </span>
                     </td>
-                    <td style={{ padding: '14px 16px', fontSize: '12px', color: '#7a6e52' }}>
+                    <td style={{ padding: '14px 16px', fontSize: '12px', color: '#7a6650' }}>
                       {member.phone || '—'}
                     </td>
-                    <td style={{ padding: '14px 16px', fontSize: '12px', color: '#5c481f' }}>
+                    <td style={{ padding: '14px 16px', fontSize: '12px', color: '#7a6650' }}>
                       {new Date(member.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                     </td>
                     <td style={{ padding: '14px 16px' }}>
@@ -320,8 +320,8 @@ export default function UserManagementContent({ staff: initialStaff }: { staff: 
           padding: '24px',
         }}>
           <div style={{
-            background: '#1a1710',
-            border: '1px solid #2e2b1e',
+            background: '#1a160c',
+            border: '1px solid #2e2010',
             borderRadius: '16px',
             padding: '32px',
             width: '100%', maxWidth: '480px',
@@ -330,17 +330,17 @@ export default function UserManagementContent({ staff: initialStaff }: { staff: 
             {/* Modal header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
               <div>
-                <div style={{ height: '2px', background: 'linear-gradient(90deg, #d4ab5a, transparent)', marginBottom: '16px', borderRadius: '2px' }} />
-                <h3 style={{ fontSize: '18px', fontWeight: 600, color: '#f4e4c1', fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+                <div style={{ height: '2px', background: 'linear-gradient(90deg, #a8702e, transparent)', marginBottom: '16px', borderRadius: '2px' }} />
+                <h3 style={{ fontSize: '18px', fontWeight: 600, color: '#f0d3a8', fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
                   Add Staff Member
                 </h3>
-                <p style={{ fontSize: '12px', color: '#7a6e52', marginTop: '4px' }}>Create a new staff account</p>
+                <p style={{ fontSize: '12px', color: '#7a6650', marginTop: '4px' }}>Create a new staff account</p>
               </div>
               <button onClick={() => { setShowModal(false); setError('') }}
                 style={{
-                  background: '#221f14', border: '1px solid #2e2b1e', borderRadius: '8px',
+                  background: '#221b10', border: '1px solid #2e2010', borderRadius: '8px',
                   width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  cursor: 'pointer', color: '#7a6e52',
+                  cursor: 'pointer', color: '#7a6650',
                 }}
               >
                 <X size={14} />
@@ -368,8 +368,8 @@ export default function UserManagementContent({ staff: initialStaff }: { staff: 
                     onChange={e => setForm(f => ({ ...f, full_name: e.target.value }))}
                     placeholder="Jane Mensah"
                     style={INPUT_STYLE}
-                    onFocus={e => e.target.style.borderColor = '#b8923d'}
-                    onBlur={e => e.target.style.borderColor = '#2e2b1e'}
+                    onFocus={e => e.target.style.borderColor = '#93602a'}
+                    onBlur={e => e.target.style.borderColor = '#2e2010'}
                   />
                 </div>
                 <div>
@@ -379,8 +379,8 @@ export default function UserManagementContent({ staff: initialStaff }: { staff: 
                     onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
                     placeholder="0241234567"
                     style={INPUT_STYLE}
-                    onFocus={e => e.target.style.borderColor = '#b8923d'}
-                    onBlur={e => e.target.style.borderColor = '#2e2b1e'}
+                    onFocus={e => e.target.style.borderColor = '#93602a'}
+                    onBlur={e => e.target.style.borderColor = '#2e2010'}
                   />
                 </div>
               </div>
@@ -392,8 +392,8 @@ export default function UserManagementContent({ staff: initialStaff }: { staff: 
                   onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                   placeholder="jane@kaylacity.com"
                   style={INPUT_STYLE}
-                  onFocus={e => e.target.style.borderColor = '#b8923d'}
-                  onBlur={e => e.target.style.borderColor = '#2e2b1e'}
+                  onFocus={e => e.target.style.borderColor = '#93602a'}
+                  onBlur={e => e.target.style.borderColor = '#2e2010'}
                 />
               </div>
 
@@ -404,8 +404,8 @@ export default function UserManagementContent({ staff: initialStaff }: { staff: 
                   onChange={e => setForm(f => ({ ...f, password: e.target.value }))}
                   placeholder="Min. 8 characters"
                   style={INPUT_STYLE}
-                  onFocus={e => e.target.style.borderColor = '#b8923d'}
-                  onBlur={e => e.target.style.borderColor = '#2e2b1e'}
+                  onFocus={e => e.target.style.borderColor = '#93602a'}
+                  onBlur={e => e.target.style.borderColor = '#2e2010'}
                 />
               </div>
 
@@ -422,8 +422,8 @@ export default function UserManagementContent({ staff: initialStaff }: { staff: 
                     backgroundPosition: 'right 12px center',
                     paddingRight: '36px',
                   }}
-                  onFocus={e => e.target.style.borderColor = '#b8923d'}
-                  onBlur={e => e.target.style.borderColor = '#2e2b1e'}
+                  onFocus={e => e.target.style.borderColor = '#93602a'}
+                  onBlur={e => e.target.style.borderColor = '#2e2010'}
                 >
                   {(['manager', 'receptionist', 'housekeeping', 'security'] as UserRole[]).map(r => (
                     <option key={r} value={r}>{ROLE_CONFIG[r].label} — {ROLE_CONFIG[r].description}</option>
@@ -436,8 +436,8 @@ export default function UserManagementContent({ staff: initialStaff }: { staff: 
                   style={{
                     flex: 1, padding: '11px',
                     background: 'transparent',
-                    border: '1px solid #2e2b1e',
-                    borderRadius: '8px', color: '#7a6e52',
+                    border: '1px solid #2e2010',
+                    borderRadius: '8px', color: '#7a6650',
                     fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit',
                   }}
                 >
@@ -446,8 +446,8 @@ export default function UserManagementContent({ staff: initialStaff }: { staff: 
                 <button type="submit" disabled={loading}
                   style={{
                     flex: 2, padding: '11px',
-                    background: loading ? '#3d3016' : 'linear-gradient(135deg, #b8923d, #d4ab5a)',
-                    color: loading ? '#7a6e52' : '#111008',
+                    background: loading ? '#3d3016' : 'linear-gradient(135deg, #93602a, #a8702e)',
+                    color: loading ? '#7a6650' : '#111008',
                     fontWeight: 700, fontSize: '13px',
                     letterSpacing: '0.04em',
                     border: 'none', borderRadius: '8px',
@@ -467,8 +467,8 @@ export default function UserManagementContent({ staff: initialStaff }: { staff: 
       <style>{`
         @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes modalIn { from { opacity: 0; transform: scale(0.96) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-        input::placeholder, textarea::placeholder { color: #3a3728; }
-        select option { background: #221f14; color: #f4e4c1; }
+        input::placeholder, textarea::placeholder { color: #3a3220; }
+        select option { background: #221b10; color: #f0d3a8; }
       `}</style>
     </div>
   )

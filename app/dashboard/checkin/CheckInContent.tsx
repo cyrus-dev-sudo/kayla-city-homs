@@ -13,8 +13,8 @@ interface Reservation {
   rooms: { room_number: string; category: string }
 }
 
-const INPUT = { width: '100%', padding: '10px 14px', background: '#221f14', border: '1px solid #2e2b1e', borderRadius: '8px', color: '#f4e4c1', fontSize: '14px', outline: 'none', fontFamily: 'inherit' } as React.CSSProperties
-const LBL = { display: 'block', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: '#7a6e52', marginBottom: '6px' }
+const INPUT = { width: '100%', padding: '10px 14px', background: '#221b10', border: '1px solid #2e2010', borderRadius: '8px', color: '#f0d3a8', fontSize: '14px', outline: 'none', fontFamily: 'inherit' } as React.CSSProperties
+const LBL = { display: 'block', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: '#7a6650', marginBottom: '6px' }
 
 export default function CheckInContent({ availableRooms, activeReservations, staffId }: {
   availableRooms: Room[]; activeReservations: Reservation[]; staffId: string
@@ -43,7 +43,7 @@ export default function CheckInContent({ availableRooms, activeReservations, sta
   useEffect(() => {
     if (step === 'signature' && canvasRef.current) {
       const ctx = canvasRef.current.getContext('2d')!
-      ctx.strokeStyle = '#d4ab5a'
+      ctx.strokeStyle = '#a8702e'
       ctx.lineWidth = 2
       ctx.lineCap = 'round'
     }
@@ -181,10 +181,10 @@ export default function CheckInContent({ availableRooms, activeReservations, sta
     <div style={{ padding: '32px', animation: 'fadeIn 0.3s ease' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
         <div>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '28px', fontWeight: 600, color: '#f4e4c1' }}>Guest Check-In</h2>
-          <p style={{ fontSize: '13px', color: '#7a6e52', marginTop: '4px' }}>{reservations.length} guests in · {rooms.length} rooms available</p>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '28px', fontWeight: 600, color: '#f0d3a8' }}>Guest Check-In</h2>
+          <p style={{ fontSize: '13px', color: '#7a6650', marginTop: '4px' }}>{reservations.length} guests in · {rooms.length} rooms available</p>
         </div>
-        <button onClick={() => setShowModal(true)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 20px', background: 'linear-gradient(135deg, #b8923d, #d4ab5a)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer' }}>
+        <button onClick={() => setShowModal(true)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 20px', background: 'linear-gradient(135deg, #93602a, #a8702e)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer' }}>
           <UserPlus size={15} /> New Check-In
         </button>
       </div>
@@ -192,30 +192,30 @@ export default function CheckInContent({ availableRooms, activeReservations, sta
       {success && <div style={{ padding: '12px 16px', background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.2)', borderRadius: '8px', color: '#4ade80', fontSize: '13px', marginBottom: '20px' }}>✓ {success}</div>}
 
       {/* Active Reservations */}
-      <div style={{ background: '#1a1710', border: '1px solid #2e2b1e', borderRadius: '12px', overflow: 'hidden' }}>
-        <div style={{ padding: '16px 20px', borderBottom: '1px solid #2e2b1e' }}>
-          <h3 style={{ fontSize: '14px', fontWeight: 600, color: '#c4b48a' }}>Currently Checked In</h3>
+      <div style={{ background: '#1a160c', border: '1px solid #2e2010', borderRadius: '12px', overflow: 'hidden' }}>
+        <div style={{ padding: '16px 20px', borderBottom: '1px solid #2e2010' }}>
+          <h3 style={{ fontSize: '14px', fontWeight: 600, color: '#c4ab85' }}>Currently Checked In</h3>
         </div>
         {reservations.length === 0 ? (
-          <div style={{ padding: '48px', textAlign: 'center' }}><UserPlus size={36} color="#3a3728" style={{ margin: '0 auto 12px' }} /><p style={{ color: '#5c481f' }}>No guests currently checked in</p></div>
+          <div style={{ padding: '48px', textAlign: 'center' }}><UserPlus size={36} color="#3a3220" style={{ margin: '0 auto 12px' }} /><p style={{ color: '#7a6650' }}>No guests currently checked in</p></div>
         ) : (
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead><tr style={{ background: '#221f14' }}>
-              {['Guest', 'Room', 'ID Number', 'Guests', 'Checked In', 'Action'].map(h => <th key={h} style={{ padding: '10px 16px', textAlign: 'left', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#5c481f', borderBottom: '1px solid #2e2b1e' }}>{h}</th>)}
+            <thead><tr style={{ background: '#221b10' }}>
+              {['Guest', 'Room', 'ID Number', 'Guests', 'Checked In', 'Action'].map(h => <th key={h} style={{ padding: '10px 16px', textAlign: 'left', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7a6650', borderBottom: '1px solid #2e2010' }}>{h}</th>)}
             </tr></thead>
             <tbody>
               {reservations.map(res => (
-                <tr key={res.id} style={{ borderBottom: '1px solid #2e2b1e' }} onMouseEnter={e => (e.currentTarget.style.background = '#221f14')} onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
+                <tr key={res.id} style={{ borderBottom: '1px solid #2e2010' }} onMouseEnter={e => (e.currentTarget.style.background = '#221b10')} onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
                   <td style={{ padding: '14px 16px' }}>
-                    <div style={{ fontSize: '13px', fontWeight: 600, color: '#c4b48a' }}>{res.guests.full_name}</div>
-                    <div style={{ fontSize: '11px', color: '#5c481f' }}>{res.guests.phone}</div>
+                    <div style={{ fontSize: '13px', fontWeight: 600, color: '#c4ab85' }}>{res.guests.full_name}</div>
+                    <div style={{ fontSize: '11px', color: '#7a6650' }}>{res.guests.phone}</div>
                   </td>
                   <td style={{ padding: '14px 16px' }}><span style={{ padding: '3px 10px', background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.2)', borderRadius: '100px', fontSize: '12px', fontWeight: 600, color: '#f87171' }}>Room {res.rooms.room_number}</span></td>
-                  <td style={{ padding: '14px 16px', fontSize: '12px', color: '#7a6e52' }}>{res.guests.id_number || '—'}</td>
-                  <td style={{ padding: '14px 16px', fontSize: '12px', color: '#7a6e52' }}>{res.num_guests}</td>
-                  <td style={{ padding: '14px 16px', fontSize: '12px', color: '#5c481f' }}>{new Date(res.checked_in_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</td>
+                  <td style={{ padding: '14px 16px', fontSize: '12px', color: '#7a6650' }}>{res.guests.id_number || '—'}</td>
+                  <td style={{ padding: '14px 16px', fontSize: '12px', color: '#7a6650' }}>{res.num_guests}</td>
+                  <td style={{ padding: '14px 16px', fontSize: '12px', color: '#7a6650' }}>{new Date(res.checked_in_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</td>
                   <td style={{ padding: '14px 16px' }}>
-                    <button onClick={() => handleCheckOut(res.id)} style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '5px 12px', background: 'rgba(212,171,90,0.1)', border: '1px solid rgba(212,171,90,0.2)', borderRadius: '6px', fontSize: '11px', fontWeight: 600, color: '#d4ab5a', cursor: 'pointer', fontFamily: 'inherit' }}>
+                    <button onClick={() => handleCheckOut(res.id)} style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '5px 12px', background: 'rgba(212,171,90,0.1)', border: '1px solid rgba(212,171,90,0.2)', borderRadius: '6px', fontSize: '11px', fontWeight: 600, color: '#a8702e', cursor: 'pointer', fontFamily: 'inherit' }}>
                       <LogOut size={11} /> Check Out
                     </button>
                   </td>
@@ -229,18 +229,18 @@ export default function CheckInContent({ availableRooms, activeReservations, sta
       {/* Modal */}
       {showModal && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(4px)', zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
-          <div style={{ background: '#1a1710', border: '1px solid #2e2b1e', borderRadius: '16px', padding: '32px', width: '100%', maxWidth: '560px', maxHeight: '90vh', overflowY: 'auto' }}>
+          <div style={{ background: '#1a160c', border: '1px solid #2e2010', borderRadius: '16px', padding: '32px', width: '100%', maxWidth: '560px', maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
               <div>
-                <div style={{ height: '2px', background: 'linear-gradient(90deg, #d4ab5a, transparent)', marginBottom: '16px', borderRadius: '2px' }} />
-                <h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '20px', fontWeight: 600, color: '#f4e4c1' }}>
+                <div style={{ height: '2px', background: 'linear-gradient(90deg, #a8702e, transparent)', marginBottom: '16px', borderRadius: '2px' }} />
+                <h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '20px', fontWeight: 600, color: '#f0d3a8' }}>
                   {step === 'search' ? 'Search Guest by ID' : step === 'form' ? 'Guest Details' : 'Guest Signature'}
                 </h3>
-                <p style={{ fontSize: '12px', color: '#7a6e52', marginTop: '4px' }}>
+                <p style={{ fontSize: '12px', color: '#7a6650', marginTop: '4px' }}>
                   Step {step === 'search' ? 1 : step === 'form' ? 2 : 3} of 3
                 </p>
               </div>
-              <button onClick={resetModal} style={{ background: '#221f14', border: '1px solid #2e2b1e', borderRadius: '8px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#7a6e52' }}><X size={14} /></button>
+              <button onClick={resetModal} style={{ background: '#221b10', border: '1px solid #2e2010', borderRadius: '8px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#7a6650' }}><X size={14} /></button>
             </div>
 
             {error && <div style={{ padding: '10px 14px', background: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.2)', borderRadius: '8px', color: '#f87171', fontSize: '13px', marginBottom: '20px' }}>{error}</div>}
@@ -248,7 +248,7 @@ export default function CheckInContent({ availableRooms, activeReservations, sta
             {/* Step 1: ID Search */}
             {step === 'search' && (
               <div>
-                <p style={{ fontSize: '13px', color: '#7a6e52', marginBottom: '20px', lineHeight: 1.6 }}>
+                <p style={{ fontSize: '13px', color: '#7a6650', marginBottom: '20px', lineHeight: 1.6 }}>
                   Scan or type the guest's ID number to check if they're a returning guest.
                 </p>
                 <div>
@@ -259,15 +259,15 @@ export default function CheckInContent({ availableRooms, activeReservations, sta
                       onKeyDown={e => e.key === 'Enter' && searchGuest()}
                       placeholder="GHA-XXXXXXXXX-X" autoFocus
                       style={{ ...INPUT, flex: 1 }}
-                      onFocus={e => e.target.style.borderColor = '#b8923d'}
-                      onBlur={e => e.target.style.borderColor = '#2e2b1e'}
+                      onFocus={e => e.target.style.borderColor = '#93602a'}
+                      onBlur={e => e.target.style.borderColor = '#2e2010'}
                     />
-                    <button onClick={searchGuest} disabled={searching} style={{ padding: '10px 20px', background: 'linear-gradient(135deg, #b8923d, #d4ab5a)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'inherit' }}>
+                    <button onClick={searchGuest} disabled={searching} style={{ padding: '10px 20px', background: 'linear-gradient(135deg, #93602a, #a8702e)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'inherit' }}>
                       <Search size={14} /> {searching ? '...' : 'Search'}
                     </button>
                   </div>
                 </div>
-                <button onClick={() => { setExistingGuest(null); setStep('form') }} style={{ marginTop: '16px', width: '100%', padding: '10px', background: 'transparent', border: '1px solid #2e2b1e', borderRadius: '8px', color: '#7a6e52', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>
+                <button onClick={() => { setExistingGuest(null); setStep('form') }} style={{ marginTop: '16px', width: '100%', padding: '10px', background: 'transparent', border: '1px solid #2e2010', borderRadius: '8px', color: '#7a6650', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>
                   Skip — New Guest (No ID)
                 </button>
               </div>
@@ -281,40 +281,40 @@ export default function CheckInContent({ availableRooms, activeReservations, sta
                     <User size={16} color="#4ade80" />
                     <div>
                       <div style={{ fontSize: '13px', fontWeight: 600, color: '#4ade80' }}>Returning Guest Found</div>
-                      <div style={{ fontSize: '11px', color: '#7a6e52' }}>Details pre-filled. Update if anything has changed.</div>
+                      <div style={{ fontSize: '11px', color: '#7a6650' }}>Details pre-filled. Update if anything has changed.</div>
                     </div>
                   </div>
                 )}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                  <div><label style={LBL}>Full Name *</label><input required value={form.full_name} onChange={e => setForm(f => ({ ...f, full_name: e.target.value }))} placeholder="John Mensah" style={INPUT} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
-                  <div><label style={LBL}>Phone</label><input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="0241234567" style={INPUT} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
+                  <div><label style={LBL}>Full Name *</label><input required value={form.full_name} onChange={e => setForm(f => ({ ...f, full_name: e.target.value }))} placeholder="John Mensah" style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+                  <div><label style={LBL}>Phone</label><input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="0241234567" style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                   <div><label style={LBL}>ID Type</label>
-                    <select value={form.id_type} onChange={e => setForm(f => ({ ...f, id_type: e.target.value }))} style={{ ...INPUT, appearance: 'none' }} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'}>
+                    <select value={form.id_type} onChange={e => setForm(f => ({ ...f, id_type: e.target.value }))} style={{ ...INPUT, appearance: 'none' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'}>
                       {['National ID', 'Passport', "Driver's License", 'Voter ID', 'Other'].map(t => <option key={t}>{t}</option>)}
                     </select>
                   </div>
-                  <div><label style={LBL}>ID Number</label><input value={form.id_number} onChange={e => setForm(f => ({ ...f, id_number: e.target.value }))} placeholder="GHA-XXXXXXXXX" style={INPUT} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
+                  <div><label style={LBL}>ID Number</label><input value={form.id_number} onChange={e => setForm(f => ({ ...f, id_number: e.target.value }))} placeholder="GHA-XXXXXXXXX" style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                  <div><label style={LBL}>Nationality</label><input value={form.nationality} onChange={e => setForm(f => ({ ...f, nationality: e.target.value }))} placeholder="Ghanaian" style={INPUT} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
-                  <div><label style={LBL}>Email</label><input type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="Optional" style={INPUT} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
+                  <div><label style={LBL}>Nationality</label><input value={form.nationality} onChange={e => setForm(f => ({ ...f, nationality: e.target.value }))} placeholder="Ghanaian" style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+                  <div><label style={LBL}>Email</label><input type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="Optional" style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
                 </div>
-                <div><label style={LBL}>Address</label><input value={form.address} onChange={e => setForm(f => ({ ...f, address: e.target.value }))} placeholder="Home address" style={INPUT} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
+                <div><label style={LBL}>Address</label><input value={form.address} onChange={e => setForm(f => ({ ...f, address: e.target.value }))} placeholder="Home address" style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
                   <div><label style={LBL}>Room</label>
-                    <select value={form.room_id} onChange={e => setForm(f => ({ ...f, room_id: e.target.value }))} style={{ ...INPUT, appearance: 'none' }} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'}>
+                    <select value={form.room_id} onChange={e => setForm(f => ({ ...f, room_id: e.target.value }))} style={{ ...INPUT, appearance: 'none' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'}>
                       {rooms.map(r => <option key={r.id} value={r.id}>Room {r.room_number} — GH₵{r.rate}</option>)}
                     </select>
                   </div>
-                  <div><label style={LBL}>Guests</label><input type="number" min="1" value={form.num_guests} onChange={e => setForm(f => ({ ...f, num_guests: e.target.value }))} style={INPUT} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
-                  <div><label style={LBL}>Check-in Date</label><input type="date" value={form.check_in_date} onChange={e => setForm(f => ({ ...f, check_in_date: e.target.value }))} style={INPUT} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
+                  <div><label style={LBL}>Guests</label><input type="number" min="1" value={form.num_guests} onChange={e => setForm(f => ({ ...f, num_guests: e.target.value }))} style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+                  <div><label style={LBL}>Check-in Date</label><input type="date" value={form.check_in_date} onChange={e => setForm(f => ({ ...f, check_in_date: e.target.value }))} style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
                 </div>
-                <div><label style={LBL}>Special Requests</label><textarea value={form.special_requests} onChange={e => setForm(f => ({ ...f, special_requests: e.target.value }))} placeholder="Any special requests..." rows={2} style={{ ...INPUT, resize: 'vertical' }} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
+                <div><label style={LBL}>Special Requests</label><textarea value={form.special_requests} onChange={e => setForm(f => ({ ...f, special_requests: e.target.value }))} placeholder="Any special requests..." rows={2} style={{ ...INPUT, resize: 'vertical' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
                 <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
-                  <button onClick={() => setStep('search')} style={{ flex: 1, padding: '11px', background: 'transparent', border: '1px solid #2e2b1e', borderRadius: '8px', color: '#7a6e52', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>← Back</button>
-                  <button onClick={() => { if (!form.full_name || !form.room_id) return; setStep('signature') }} style={{ flex: 2, padding: '11px', background: 'linear-gradient(135deg, #b8923d, #d4ab5a)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                  <button onClick={() => setStep('search')} style={{ flex: 1, padding: '11px', background: 'transparent', border: '1px solid #2e2010', borderRadius: '8px', color: '#7a6650', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>← Back</button>
+                  <button onClick={() => { if (!form.full_name || !form.room_id) return; setStep('signature') }} style={{ flex: 2, padding: '11px', background: 'linear-gradient(135deg, #93602a, #a8702e)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                     <Pen size={14} /> Next: Signature
                   </button>
                 </div>
@@ -324,21 +324,21 @@ export default function CheckInContent({ availableRooms, activeReservations, sta
             {/* Step 3: Signature */}
             {step === 'signature' && (
               <div>
-                <div style={{ padding: '16px', background: '#221f14', border: '1px solid #2e2b1e', borderRadius: '10px', marginBottom: '20px' }}>
-                  <div style={{ fontSize: '13px', fontWeight: 600, color: '#c4b48a', marginBottom: '4px' }}>{form.full_name}</div>
-                  <div style={{ fontSize: '12px', color: '#7a6e52' }}>Room {rooms.find(r => r.id === form.room_id)?.room_number} · {form.num_guests} guest(s) · {form.check_in_date}</div>
+                <div style={{ padding: '16px', background: '#221b10', border: '1px solid #2e2010', borderRadius: '10px', marginBottom: '20px' }}>
+                  <div style={{ fontSize: '13px', fontWeight: 600, color: '#c4ab85', marginBottom: '4px' }}>{form.full_name}</div>
+                  <div style={{ fontSize: '12px', color: '#7a6650' }}>Room {rooms.find(r => r.id === form.room_id)?.room_number} · {form.num_guests} guest(s) · {form.check_in_date}</div>
                 </div>
-                <p style={{ fontSize: '13px', color: '#7a6e52', marginBottom: '12px' }}>Guest signs below to confirm they agree to the hotel's terms and conditions.</p>
-                <div style={{ border: '1px solid #2e2b1e', borderRadius: '10px', overflow: 'hidden', marginBottom: '12px', background: '#0f0c07' }}>
-                  <div style={{ padding: '8px 12px', background: '#221f14', borderBottom: '1px solid #2e2b1e', fontSize: '11px', color: '#5c481f', display: 'flex', alignItems: 'center', gap: '6px' }}><Pen size={11} /> Guest Signature</div>
+                <p style={{ fontSize: '13px', color: '#7a6650', marginBottom: '12px' }}>Guest signs below to confirm they agree to the hotel's terms and conditions.</p>
+                <div style={{ border: '1px solid #2e2010', borderRadius: '10px', overflow: 'hidden', marginBottom: '12px', background: '#0f0c07' }}>
+                  <div style={{ padding: '8px 12px', background: '#221b10', borderBottom: '1px solid #2e2010', fontSize: '11px', color: '#7a6650', display: 'flex', alignItems: 'center', gap: '6px' }}><Pen size={11} /> Guest Signature</div>
                   <canvas ref={canvasRef} width={450} height={180} style={{ display: 'block', cursor: 'crosshair', touchAction: 'none', width: '100%' }}
                     onMouseDown={startDraw} onMouseMove={draw} onMouseUp={stopDraw} onMouseLeave={stopDraw}
                     onTouchStart={startDraw} onTouchMove={draw} onTouchEnd={stopDraw} />
                 </div>
                 <div style={{ display: 'flex', gap: '10px' }}>
-                  <button onClick={() => setStep('form')} style={{ padding: '10px 16px', background: 'transparent', border: '1px solid #2e2b1e', borderRadius: '8px', color: '#7a6e52', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>← Back</button>
-                  <button onClick={clearSignature} style={{ padding: '10px 16px', background: 'transparent', border: '1px solid #2e2b1e', borderRadius: '8px', color: '#7a6e52', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: '6px' }}><RotateCcw size={13} /> Clear</button>
-                  <button onClick={handleCheckIn} disabled={loading} style={{ flex: 1, padding: '10px', background: 'linear-gradient(135deg, #b8923d, #d4ab5a)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit' }}>
+                  <button onClick={() => setStep('form')} style={{ padding: '10px 16px', background: 'transparent', border: '1px solid #2e2010', borderRadius: '8px', color: '#7a6650', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>← Back</button>
+                  <button onClick={clearSignature} style={{ padding: '10px 16px', background: 'transparent', border: '1px solid #2e2010', borderRadius: '8px', color: '#7a6650', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: '6px' }}><RotateCcw size={13} /> Clear</button>
+                  <button onClick={handleCheckIn} disabled={loading} style={{ flex: 1, padding: '10px', background: 'linear-gradient(135deg, #93602a, #a8702e)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit' }}>
                     {loading ? 'Checking in...' : '✓ Confirm Check-In'}
                   </button>
                 </div>
@@ -347,7 +347,7 @@ export default function CheckInContent({ availableRooms, activeReservations, sta
           </div>
         </div>
       )}
-      <style>{`@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}} select option{background:#221f14;color:#f4e4c1} input::placeholder,textarea::placeholder{color:#3a3728}`}</style>
+      <style>{`@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}} select option{background:#221b10;color:#f0d3a8} input::placeholder,textarea::placeholder{color:#3a3220}`}</style>
     </div>
   )
 }

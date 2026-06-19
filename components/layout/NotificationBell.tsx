@@ -53,7 +53,7 @@ export default function NotificationBell() {
       check_in: '#4ade80', check_out: '#60a5fa', report: '#a78bfa',
       maintenance: '#fbbf24', incident: '#f87171', task: '#34d399',
     }
-    return colors[type || ''] || '#d4ab5a'
+    return colors[type || ''] || '#a8702e'
   }
 
   function timeAgo(ts: string) {
@@ -74,11 +74,11 @@ export default function NotificationBell() {
         style={{
           position: 'relative',
           width: '36px', height: '36px',
-          background: showPanel ? 'rgba(212,171,90,0.1)' : '#221f14',
-          border: `1px solid ${showPanel ? 'rgba(212,171,90,0.3)' : '#2e2b1e'}`,
+          background: showPanel ? 'rgba(212,171,90,0.1)' : '#221b10',
+          border: `1px solid ${showPanel ? 'rgba(212,171,90,0.3)' : '#2e2010'}`,
           borderRadius: '8px',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          cursor: 'pointer', color: showPanel ? '#d4ab5a' : '#7a6e52',
+          cursor: 'pointer', color: showPanel ? '#a8702e' : '#7a6650',
           transition: 'all 0.15s',
         }}
       >
@@ -93,7 +93,7 @@ export default function NotificationBell() {
             borderRadius: '100px',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             padding: '0 4px',
-            border: '1px solid #1a1710',
+            border: '1px solid #1a160c',
           }}>
             {unreadCount > 99 ? '99+' : unreadCount}
           </span>
@@ -112,8 +112,8 @@ export default function NotificationBell() {
           <div style={{
             position: 'absolute', top: '44px', right: 0,
             width: '360px',
-            background: '#1a1710',
-            border: '1px solid #2e2b1e',
+            background: '#1a160c',
+            border: '1px solid #2e2010',
             borderRadius: '12px',
             boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
             zIndex: 50,
@@ -122,11 +122,11 @@ export default function NotificationBell() {
             {/* Header */}
             <div style={{
               padding: '14px 16px',
-              borderBottom: '1px solid #2e2b1e',
+              borderBottom: '1px solid #2e2010',
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ fontSize: '14px', fontWeight: 600, color: '#c4b48a' }}>Notifications</span>
+                <span style={{ fontSize: '14px', fontWeight: 600, color: '#c4ab85' }}>Notifications</span>
                 {unreadCount > 0 && (
                   <span style={{ padding: '2px 8px', background: 'rgba(244,63,94,0.1)', border: '1px solid rgba(244,63,94,0.2)', borderRadius: '100px', fontSize: '11px', fontWeight: 700, color: '#f43f5e' }}>
                     {unreadCount} new
@@ -135,11 +135,11 @@ export default function NotificationBell() {
               </div>
               <div style={{ display: 'flex', gap: '6px' }}>
                 {unreadCount > 0 && (
-                  <button onClick={markAllRead} style={{ padding: '4px 10px', background: 'transparent', border: '1px solid #2e2b1e', borderRadius: '6px', fontSize: '11px', color: '#7a6e52', cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <button onClick={markAllRead} style={{ padding: '4px 10px', background: 'transparent', border: '1px solid #2e2010', borderRadius: '6px', fontSize: '11px', color: '#7a6650', cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <CheckCheck size={11} /> Mark all read
                   </button>
                 )}
-                <button onClick={() => setShowPanel(false)} style={{ width: '26px', height: '26px', background: '#221f14', border: '1px solid #2e2b1e', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#7a6e52' }}>
+                <button onClick={() => setShowPanel(false)} style={{ width: '26px', height: '26px', background: '#221b10', border: '1px solid #2e2010', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#7a6650' }}>
                   <X size={12} />
                 </button>
               </div>
@@ -149,8 +149,8 @@ export default function NotificationBell() {
             <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
               {notifications.length === 0 ? (
                 <div style={{ padding: '40px', textAlign: 'center' }}>
-                  <Bell size={28} color="#3a3728" style={{ margin: '0 auto 10px' }} />
-                  <p style={{ fontSize: '13px', color: '#5c481f' }}>No notifications yet</p>
+                  <Bell size={28} color="#3a3220" style={{ margin: '0 auto 10px' }} />
+                  <p style={{ fontSize: '13px', color: '#7a6650' }}>No notifications yet</p>
                 </div>
               ) : (
                 notifications.map(n => {
@@ -160,22 +160,22 @@ export default function NotificationBell() {
                       key={n.id}
                       style={{
                         padding: '12px 16px',
-                        borderBottom: '1px solid #2e2b1e',
+                        borderBottom: '1px solid #2e2010',
                         background: n.read ? 'transparent' : 'rgba(212,171,90,0.03)',
                         display: 'flex', gap: '10px', alignItems: 'flex-start',
                         transition: 'background 0.15s',
                       }}
-                      onMouseEnter={e => (e.currentTarget.style.background = '#221f14')}
+                      onMouseEnter={e => (e.currentTarget.style.background = '#221b10')}
                       onMouseLeave={e => (e.currentTarget.style.background = n.read ? 'transparent' : 'rgba(212,171,90,0.03)')}
                     >
                       <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: n.read ? 'transparent' : color, marginTop: '6px', flexShrink: 0, boxShadow: n.read ? 'none' : `0 0 4px ${color}` }} />
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: '13px', fontWeight: n.read ? 400 : 600, color: n.read ? '#7a6e52' : '#c4b48a', marginBottom: '2px' }}>{n.title}</div>
-                        <div style={{ fontSize: '12px', color: '#5c481f', lineHeight: 1.4 }}>{n.message}</div>
-                        <div style={{ fontSize: '11px', color: '#3a3728', marginTop: '4px' }}>{timeAgo(n.created_at)}</div>
+                        <div style={{ fontSize: '13px', fontWeight: n.read ? 400 : 600, color: n.read ? '#7a6650' : '#c4ab85', marginBottom: '2px' }}>{n.title}</div>
+                        <div style={{ fontSize: '12px', color: '#7a6650', lineHeight: 1.4 }}>{n.message}</div>
+                        <div style={{ fontSize: '11px', color: '#3a3220', marginTop: '4px' }}>{timeAgo(n.created_at)}</div>
                       </div>
                       {!n.read && (
-                        <button onClick={() => markRead(n.id)} style={{ background: 'transparent', border: 'none', color: '#5c481f', cursor: 'pointer', padding: '2px', flexShrink: 0 }}>
+                        <button onClick={() => markRead(n.id)} style={{ background: 'transparent', border: 'none', color: '#7a6650', cursor: 'pointer', padding: '2px', flexShrink: 0 }}>
                           <Check size={12} />
                         </button>
                       )}
@@ -186,8 +186,8 @@ export default function NotificationBell() {
             </div>
 
             {/* Footer */}
-            <div style={{ padding: '10px 16px', borderTop: '1px solid #2e2b1e' }}>
-              <Link href="/dashboard/notifications" onClick={() => setShowPanel(false)} style={{ fontSize: '12px', color: '#8a6c2e', textDecoration: 'none', display: 'block', textAlign: 'center' }}>
+            <div style={{ padding: '10px 16px', borderTop: '1px solid #2e2010' }}>
+              <Link href="/dashboard/notifications" onClick={() => setShowPanel(false)} style={{ fontSize: '12px', color: '#93602a', textDecoration: 'none', display: 'block', textAlign: 'center' }}>
                 View all notifications →
               </Link>
             </div>

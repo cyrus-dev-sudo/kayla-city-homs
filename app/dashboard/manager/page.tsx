@@ -26,8 +26,8 @@ export default async function ManagerDashboardPage() {
       <Topbar title="Manager Dashboard" subtitle="Daily operations overview" role={role} />
       <div style={{ padding: '32px' }}>
         <div style={{
-          background: '#1a1710',
-          border: '1px solid #2e2b1e',
+          background: '#1a160c',
+          border: '1px solid #2e2010',
           borderRadius: '12px',
           padding: '48px 32px',
           textAlign: 'center',
@@ -42,12 +42,12 @@ export default async function ManagerDashboardPage() {
             fontFamily: "'Cormorant Garamond', Georgia, serif",
             fontSize: '28px',
             fontWeight: 600,
-            color: '#f4e4c1',
+            color: '#f0d3a8',
             marginBottom: '12px',
           }}>
             Manager Dashboard
           </h2>
-          <p style={{ fontSize: '14px', color: '#7a6e52', lineHeight: 1.6 }}>
+          <p style={{ fontSize: '14px', color: '#7a6650', lineHeight: 1.6 }}>
             Rooms, reservations, and reports modules are coming in Phase 2.<br />
             Phase 1 establishes the foundation you're standing on right now.
           </p>

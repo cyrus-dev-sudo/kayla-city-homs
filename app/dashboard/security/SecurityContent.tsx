@@ -6,8 +6,8 @@ import { useRouter } from 'next/navigation'
 import { Plus, X, Users, Car, Shield, AlertTriangle, LogOut } from 'lucide-react'
 import { sendNotification } from '@/lib/notify'
 
-const INPUT = { width: '100%', padding: '10px 14px', background: '#221f14', border: '1px solid #2e2b1e', borderRadius: '8px', color: '#f4e4c1', fontSize: '14px', outline: 'none', fontFamily: 'inherit' } as React.CSSProperties
-const LBL = { display: 'block', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: '#7a6e52', marginBottom: '6px' }
+const INPUT = { width: '100%', padding: '10px 14px', background: '#221b10', border: '1px solid #2e2010', borderRadius: '8px', color: '#f0d3a8', fontSize: '14px', outline: 'none', fontFamily: 'inherit' } as React.CSSProperties
+const LBL = { display: 'block', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: '#7a6650', marginBottom: '6px' }
 const TEXTAREA = { ...INPUT, resize: 'vertical' as const } as React.CSSProperties
 
 function getCurrentShift() {
@@ -97,51 +97,51 @@ export default function SecurityContent({ visitors: initV, vehicles: initVeh, pa
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
         <div>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '28px', fontWeight: 600, color: '#f4e4c1' }}>Security</h2>
-          <p style={{ fontSize: '13px', color: '#7a6e52', marginTop: '4px' }}>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '28px', fontWeight: 600, color: '#f0d3a8' }}>Security</h2>
+          <p style={{ fontSize: '13px', color: '#7a6650', marginTop: '4px' }}>
             {visitors.filter(v => !v.time_out).length} visitors in · {vehicles.filter(v => !v.time_out).length} vehicles in · {incidents.filter(i => i.status === 'open').length} open incidents
           </p>
         </div>
-        <button onClick={() => setShowModal(true)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 20px', background: 'linear-gradient(135deg, #b8923d, #d4ab5a)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer' }}>
+        <button onClick={() => setShowModal(true)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 20px', background: 'linear-gradient(135deg, #93602a, #a8702e)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer' }}>
           <Plus size={15} /> Log Entry
         </button>
       </div>
 
       {/* Tabs */}
-      <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', borderBottom: '1px solid #2e2b1e', paddingBottom: '0' }}>
+      <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', borderBottom: '1px solid #2e2010', paddingBottom: '0' }}>
         {TABS.map(t => (
           <button key={t.key} onClick={() => setTab(t.key as any)} style={{
             display: 'flex', alignItems: 'center', gap: '6px',
             padding: '10px 16px', background: 'transparent', border: 'none',
-            borderBottom: tab === t.key ? '2px solid #d4ab5a' : '2px solid transparent',
+            borderBottom: tab === t.key ? '2px solid #a8702e' : '2px solid transparent',
             fontSize: '13px', fontWeight: tab === t.key ? 600 : 400,
-            color: tab === t.key ? '#d4ab5a' : '#5c481f',
+            color: tab === t.key ? '#a8702e' : '#7a6650',
             cursor: 'pointer', fontFamily: 'inherit', marginBottom: '-1px',
           }}>
             {t.icon} {t.label}
-            {t.count > 0 && <span style={{ padding: '1px 6px', background: tab === t.key ? 'rgba(212,171,90,0.2)' : '#221f14', borderRadius: '100px', fontSize: '10px', fontWeight: 700, color: tab === t.key ? '#d4ab5a' : '#7a6e52' }}>{t.count}</span>}
+            {t.count > 0 && <span style={{ padding: '1px 6px', background: tab === t.key ? 'rgba(212,171,90,0.2)' : '#221b10', borderRadius: '100px', fontSize: '10px', fontWeight: 700, color: tab === t.key ? '#a8702e' : '#7a6650' }}>{t.count}</span>}
           </button>
         ))}
       </div>
 
       {/* Visitors Tab */}
       {tab === 'visitors' && (
-        <div style={{ background: '#1a1710', border: '1px solid #2e2b1e', borderRadius: '12px', overflow: 'hidden' }}>
+        <div style={{ background: '#1a160c', border: '1px solid #2e2010', borderRadius: '12px', overflow: 'hidden' }}>
           {visitors.length === 0 ? (
-            <div style={{ padding: '48px', textAlign: 'center' }}><Users size={36} color="#3a3728" style={{ margin: '0 auto 12px' }} /><p style={{ color: '#5c481f' }}>No visitors logged today</p></div>
+            <div style={{ padding: '48px', textAlign: 'center' }}><Users size={36} color="#3a3220" style={{ margin: '0 auto 12px' }} /><p style={{ color: '#7a6650' }}>No visitors logged today</p></div>
           ) : (
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead><tr style={{ background: '#221f14' }}>
-                {['Visitor', 'Seeing', 'Room', 'Purpose', 'Time In', 'Time Out', 'Action'].map(h => <th key={h} style={{ padding: '10px 14px', textAlign: 'left', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#5c481f', borderBottom: '1px solid #2e2b1e' }}>{h}</th>)}
+              <thead><tr style={{ background: '#221b10' }}>
+                {['Visitor', 'Seeing', 'Room', 'Purpose', 'Time In', 'Time Out', 'Action'].map(h => <th key={h} style={{ padding: '10px 14px', textAlign: 'left', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7a6650', borderBottom: '1px solid #2e2010' }}>{h}</th>)}
               </tr></thead>
               <tbody>
                 {visitors.map(v => (
-                  <tr key={v.id} style={{ borderBottom: '1px solid #2e2b1e' }} onMouseEnter={e => (e.currentTarget.style.background = '#221f14')} onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
-                    <td style={{ padding: '12px 14px', fontSize: '13px', fontWeight: 600, color: '#c4b48a' }}>{v.visitor_name}</td>
-                    <td style={{ padding: '12px 14px', fontSize: '12px', color: '#7a6e52' }}>{v.visiting_guest}</td>
-                    <td style={{ padding: '12px 14px', fontSize: '12px', color: '#7a6e52' }}>{v.room_number || '—'}</td>
-                    <td style={{ padding: '12px 14px', fontSize: '12px', color: '#7a6e52' }}>{v.purpose || '—'}</td>
-                    <td style={{ padding: '12px 14px', fontSize: '11px', color: '#5c481f' }}>{formatTime(v.time_in)}</td>
+                  <tr key={v.id} style={{ borderBottom: '1px solid #2e2010' }} onMouseEnter={e => (e.currentTarget.style.background = '#221b10')} onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
+                    <td style={{ padding: '12px 14px', fontSize: '13px', fontWeight: 600, color: '#c4ab85' }}>{v.visitor_name}</td>
+                    <td style={{ padding: '12px 14px', fontSize: '12px', color: '#7a6650' }}>{v.visiting_guest}</td>
+                    <td style={{ padding: '12px 14px', fontSize: '12px', color: '#7a6650' }}>{v.room_number || '—'}</td>
+                    <td style={{ padding: '12px 14px', fontSize: '12px', color: '#7a6650' }}>{v.purpose || '—'}</td>
+                    <td style={{ padding: '12px 14px', fontSize: '11px', color: '#7a6650' }}>{formatTime(v.time_in)}</td>
                     <td style={{ padding: '12px 14px', fontSize: '11px', color: v.time_out ? '#4ade80' : '#fbbf24' }}>{v.time_out ? formatTime(v.time_out) : 'Still in'}</td>
                     <td style={{ padding: '12px 14px' }}>
                       {!v.time_out && (
@@ -160,21 +160,21 @@ export default function SecurityContent({ visitors: initV, vehicles: initVeh, pa
 
       {/* Vehicles Tab */}
       {tab === 'vehicles' && (
-        <div style={{ background: '#1a1710', border: '1px solid #2e2b1e', borderRadius: '12px', overflow: 'hidden' }}>
+        <div style={{ background: '#1a160c', border: '1px solid #2e2010', borderRadius: '12px', overflow: 'hidden' }}>
           {vehicles.length === 0 ? (
-            <div style={{ padding: '48px', textAlign: 'center' }}><Car size={36} color="#3a3728" style={{ margin: '0 auto 12px' }} /><p style={{ color: '#5c481f' }}>No vehicles logged</p></div>
+            <div style={{ padding: '48px', textAlign: 'center' }}><Car size={36} color="#3a3220" style={{ margin: '0 auto 12px' }} /><p style={{ color: '#7a6650' }}>No vehicles logged</p></div>
           ) : (
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead><tr style={{ background: '#221f14' }}>
-                {['Plate', 'Type', 'Color', 'Time In', 'Time Out', 'Action'].map(h => <th key={h} style={{ padding: '10px 14px', textAlign: 'left', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#5c481f', borderBottom: '1px solid #2e2b1e' }}>{h}</th>)}
+              <thead><tr style={{ background: '#221b10' }}>
+                {['Plate', 'Type', 'Color', 'Time In', 'Time Out', 'Action'].map(h => <th key={h} style={{ padding: '10px 14px', textAlign: 'left', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7a6650', borderBottom: '1px solid #2e2010' }}>{h}</th>)}
               </tr></thead>
               <tbody>
                 {vehicles.map(v => (
-                  <tr key={v.id} style={{ borderBottom: '1px solid #2e2b1e' }} onMouseEnter={e => (e.currentTarget.style.background = '#221f14')} onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
-                    <td style={{ padding: '12px 14px' }}><span style={{ fontFamily: 'monospace', fontSize: '13px', fontWeight: 700, color: '#d4ab5a', background: 'rgba(212,171,90,0.1)', padding: '2px 8px', borderRadius: '4px', border: '1px solid rgba(212,171,90,0.2)' }}>{v.plate_number}</span></td>
-                    <td style={{ padding: '12px 14px', fontSize: '12px', color: '#c4b48a' }}>{v.vehicle_type}</td>
-                    <td style={{ padding: '12px 14px' }}><span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: '#7a6e52' }}>{v.color}</span></td>
-                    <td style={{ padding: '12px 14px', fontSize: '11px', color: '#5c481f' }}>{formatTime(v.time_in)}</td>
+                  <tr key={v.id} style={{ borderBottom: '1px solid #2e2010' }} onMouseEnter={e => (e.currentTarget.style.background = '#221b10')} onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
+                    <td style={{ padding: '12px 14px' }}><span style={{ fontFamily: 'monospace', fontSize: '13px', fontWeight: 700, color: '#a8702e', background: 'rgba(212,171,90,0.1)', padding: '2px 8px', borderRadius: '4px', border: '1px solid rgba(212,171,90,0.2)' }}>{v.plate_number}</span></td>
+                    <td style={{ padding: '12px 14px', fontSize: '12px', color: '#c4ab85' }}>{v.vehicle_type}</td>
+                    <td style={{ padding: '12px 14px' }}><span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: '#7a6650' }}>{v.color}</span></td>
+                    <td style={{ padding: '12px 14px', fontSize: '11px', color: '#7a6650' }}>{formatTime(v.time_in)}</td>
                     <td style={{ padding: '12px 14px', fontSize: '11px', color: v.time_out ? '#4ade80' : '#fbbf24' }}>{v.time_out ? formatTime(v.time_out) : 'Still in'}</td>
                     <td style={{ padding: '12px 14px' }}>
                       {!v.time_out && (
@@ -194,15 +194,15 @@ export default function SecurityContent({ visitors: initV, vehicles: initVeh, pa
       {/* Patrols Tab */}
       {tab === 'patrols' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {patrols.length === 0 && <div style={{ padding: '48px', textAlign: 'center', background: '#1a1710', border: '1px solid #2e2b1e', borderRadius: '12px' }}><Shield size={36} color="#3a3728" style={{ margin: '0 auto 12px' }} /><p style={{ color: '#5c481f' }}>No patrol rounds logged</p></div>}
+          {patrols.length === 0 && <div style={{ padding: '48px', textAlign: 'center', background: '#1a160c', border: '1px solid #2e2010', borderRadius: '12px' }}><Shield size={36} color="#3a3220" style={{ margin: '0 auto 12px' }} /><p style={{ color: '#7a6650' }}>No patrol rounds logged</p></div>}
           {patrols.map(p => (
-            <div key={p.id} style={{ background: '#1a1710', border: '1px solid #2e2b1e', borderRadius: '12px', padding: '20px' }}>
+            <div key={p.id} style={{ background: '#1a160c', border: '1px solid #2e2010', borderRadius: '12px', padding: '20px' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-                <div style={{ fontSize: '13px', fontWeight: 600, color: '#c4b48a' }}>{p.officer?.full_name} — {p.shift} shift</div>
-                <div style={{ fontSize: '11px', color: '#5c481f' }}>{formatTime(p.started_at)}</div>
+                <div style={{ fontSize: '13px', fontWeight: 600, color: '#c4ab85' }}>{p.officer?.full_name} — {p.shift} shift</div>
+                <div style={{ fontSize: '11px', color: '#7a6650' }}>{formatTime(p.started_at)}</div>
               </div>
-              <div style={{ fontSize: '12px', color: '#7a6e52', marginBottom: '6px' }}><strong style={{ color: '#5c481f' }}>Areas:</strong> {p.areas_covered}</div>
-              {p.observations && <div style={{ fontSize: '12px', color: '#7a6e52' }}><strong style={{ color: '#5c481f' }}>Observations:</strong> {p.observations}</div>}
+              <div style={{ fontSize: '12px', color: '#7a6650', marginBottom: '6px' }}><strong style={{ color: '#7a6650' }}>Areas:</strong> {p.areas_covered}</div>
+              {p.observations && <div style={{ fontSize: '12px', color: '#7a6650' }}><strong style={{ color: '#7a6650' }}>Observations:</strong> {p.observations}</div>}
             </div>
           ))}
         </div>
@@ -211,16 +211,16 @@ export default function SecurityContent({ visitors: initV, vehicles: initVeh, pa
       {/* Incidents Tab */}
       {tab === 'incidents' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {incidents.length === 0 && <div style={{ padding: '48px', textAlign: 'center', background: '#1a1710', border: '1px solid #2e2b1e', borderRadius: '12px' }}><AlertTriangle size={36} color="#3a3728" style={{ margin: '0 auto 12px' }} /><p style={{ color: '#5c481f' }}>No incidents reported</p></div>}
+          {incidents.length === 0 && <div style={{ padding: '48px', textAlign: 'center', background: '#1a160c', border: '1px solid #2e2010', borderRadius: '12px' }}><AlertTriangle size={36} color="#3a3220" style={{ margin: '0 auto 12px' }} /><p style={{ color: '#7a6650' }}>No incidents reported</p></div>}
           {incidents.map(i => {
-            const sc = SEVERITY_COLORS[i.severity] || '#d4ab5a'
+            const sc = SEVERITY_COLORS[i.severity] || '#a8702e'
             return (
-              <div key={i.id} style={{ background: '#1a1710', border: `1px solid ${sc}30`, borderRadius: '12px', padding: '20px' }}>
+              <div key={i.id} style={{ background: '#1a160c', border: `1px solid ${sc}30`, borderRadius: '12px', padding: '20px' }}>
                 <div style={{ height: '2px', background: `linear-gradient(90deg, ${sc}, transparent)`, marginBottom: '16px', borderRadius: '2px' }} />
                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '8px' }}>
                   <div>
-                    <div style={{ fontSize: '14px', fontWeight: 600, color: '#c4b48a', marginBottom: '4px' }}>{i.incident_type}</div>
-                    <div style={{ fontSize: '11px', color: '#5c481f' }}>by {i.reported_by_profile?.full_name} · {formatTime(i.created_at)} · {i.location || 'No location'}</div>
+                    <div style={{ fontSize: '14px', fontWeight: 600, color: '#c4ab85', marginBottom: '4px' }}>{i.incident_type}</div>
+                    <div style={{ fontSize: '11px', color: '#7a6650' }}>by {i.reported_by_profile?.full_name} · {formatTime(i.created_at)} · {i.location || 'No location'}</div>
                   </div>
                   <div style={{ display: 'flex', gap: '6px' }}>
                     <span style={{ padding: '3px 8px', background: `${sc}15`, border: `1px solid ${sc}25`, borderRadius: '100px', fontSize: '10px', fontWeight: 700, color: sc, textTransform: 'capitalize' }}>{i.severity}</span>
@@ -228,9 +228,9 @@ export default function SecurityContent({ visitors: initV, vehicles: initVeh, pa
                     {i.manager_notified && <span style={{ padding: '3px 8px', background: 'rgba(96,165,250,0.1)', border: '1px solid rgba(96,165,250,0.2)', borderRadius: '100px', fontSize: '10px', fontWeight: 700, color: '#60a5fa' }}>Manager Notified</span>}
                   </div>
                 </div>
-                <p style={{ fontSize: '13px', color: '#7a6e52', lineHeight: 1.6, marginBottom: '8px' }}>{i.description}</p>
-                {i.persons_involved && <div style={{ fontSize: '12px', color: '#7a6e52' }}><strong style={{ color: '#5c481f' }}>Persons involved:</strong> {i.persons_involved}</div>}
-                {i.action_taken && <div style={{ fontSize: '12px', color: '#7a6e52', marginTop: '4px' }}><strong style={{ color: '#5c481f' }}>Action taken:</strong> {i.action_taken}</div>}
+                <p style={{ fontSize: '13px', color: '#7a6650', lineHeight: 1.6, marginBottom: '8px' }}>{i.description}</p>
+                {i.persons_involved && <div style={{ fontSize: '12px', color: '#7a6650' }}><strong style={{ color: '#7a6650' }}>Persons involved:</strong> {i.persons_involved}</div>}
+                {i.action_taken && <div style={{ fontSize: '12px', color: '#7a6650', marginTop: '4px' }}><strong style={{ color: '#7a6650' }}>Action taken:</strong> {i.action_taken}</div>}
               </div>
             )
           })}
@@ -240,29 +240,29 @@ export default function SecurityContent({ visitors: initV, vehicles: initVeh, pa
       {/* Modal */}
       {showModal && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(4px)', zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
-          <div style={{ background: '#1a1710', border: '1px solid #2e2b1e', borderRadius: '16px', padding: '32px', width: '100%', maxWidth: '480px', maxHeight: '90vh', overflowY: 'auto' }}>
+          <div style={{ background: '#1a160c', border: '1px solid #2e2010', borderRadius: '16px', padding: '32px', width: '100%', maxWidth: '480px', maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
               <div>
-                <div style={{ height: '2px', background: 'linear-gradient(90deg, #d4ab5a, transparent)', marginBottom: '16px', borderRadius: '2px' }} />
-                <h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '20px', fontWeight: 600, color: '#f4e4c1' }}>
+                <div style={{ height: '2px', background: 'linear-gradient(90deg, #a8702e, transparent)', marginBottom: '16px', borderRadius: '2px' }} />
+                <h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '20px', fontWeight: 600, color: '#f0d3a8' }}>
                   {tab === 'visitors' ? 'Log Visitor' : tab === 'vehicles' ? 'Log Vehicle' : tab === 'patrols' ? 'Log Patrol Round' : 'Report Incident'}
                 </h3>
               </div>
-              <button onClick={() => setShowModal(false)} style={{ background: '#221f14', border: '1px solid #2e2b1e', borderRadius: '8px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#7a6e52' }}><X size={14} /></button>
+              <button onClick={() => setShowModal(false)} style={{ background: '#221b10', border: '1px solid #2e2010', borderRadius: '8px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#7a6650' }}><X size={14} /></button>
             </div>
 
             {/* Visitor Form */}
             {tab === 'visitors' && (
               <form onSubmit={logVisitor} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                <div><label style={LBL}>Visitor Name *</label><input required value={vForm.visitor_name} onChange={e => setVForm(f => ({ ...f, visitor_name: e.target.value }))} placeholder="John Doe" style={INPUT} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
-                <div><label style={LBL}>Visiting (Guest Name) *</label><input required value={vForm.visiting_guest} onChange={e => setVForm(f => ({ ...f, visiting_guest: e.target.value }))} placeholder="Name of guest they're seeing" style={INPUT} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
+                <div><label style={LBL}>Visitor Name *</label><input required value={vForm.visitor_name} onChange={e => setVForm(f => ({ ...f, visitor_name: e.target.value }))} placeholder="John Doe" style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+                <div><label style={LBL}>Visiting (Guest Name) *</label><input required value={vForm.visiting_guest} onChange={e => setVForm(f => ({ ...f, visiting_guest: e.target.value }))} placeholder="Name of guest they're seeing" style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                  <div><label style={LBL}>Room Number</label><input value={vForm.room_number} onChange={e => setVForm(f => ({ ...f, room_number: e.target.value }))} placeholder="101" style={INPUT} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
-                  <div><label style={LBL}>Purpose</label><input value={vForm.purpose} onChange={e => setVForm(f => ({ ...f, purpose: e.target.value }))} placeholder="Visit, delivery..." style={INPUT} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
+                  <div><label style={LBL}>Room Number</label><input value={vForm.room_number} onChange={e => setVForm(f => ({ ...f, room_number: e.target.value }))} placeholder="101" style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+                  <div><label style={LBL}>Purpose</label><input value={vForm.purpose} onChange={e => setVForm(f => ({ ...f, purpose: e.target.value }))} placeholder="Visit, delivery..." style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
                 </div>
                 <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
-                  <button type="button" onClick={() => setShowModal(false)} style={{ flex: 1, padding: '11px', background: 'transparent', border: '1px solid #2e2b1e', borderRadius: '8px', color: '#7a6e52', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
-                  <button type="submit" disabled={loading} style={{ flex: 2, padding: '11px', background: 'linear-gradient(135deg, #b8923d, #d4ab5a)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit' }}>{loading ? 'Logging...' : 'Log Visitor'}</button>
+                  <button type="button" onClick={() => setShowModal(false)} style={{ flex: 1, padding: '11px', background: 'transparent', border: '1px solid #2e2010', borderRadius: '8px', color: '#7a6650', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
+                  <button type="submit" disabled={loading} style={{ flex: 2, padding: '11px', background: 'linear-gradient(135deg, #93602a, #a8702e)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit' }}>{loading ? 'Logging...' : 'Log Visitor'}</button>
                 </div>
               </form>
             )}
@@ -270,19 +270,19 @@ export default function SecurityContent({ visitors: initV, vehicles: initVeh, pa
             {/* Vehicle Form */}
             {tab === 'vehicles' && (
               <form onSubmit={logVehicle} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                <div><label style={LBL}>Plate Number *</label><input required value={carForm.plate_number} onChange={e => setCarForm(f => ({ ...f, plate_number: e.target.value.toUpperCase() }))} placeholder="GR-1234-24" style={{ ...INPUT, textTransform: 'uppercase', fontFamily: 'monospace', fontWeight: 700, letterSpacing: '0.1em' }} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
+                <div><label style={LBL}>Plate Number *</label><input required value={carForm.plate_number} onChange={e => setCarForm(f => ({ ...f, plate_number: e.target.value.toUpperCase() }))} placeholder="GR-1234-24" style={{ ...INPUT, textTransform: 'uppercase', fontFamily: 'monospace', fontWeight: 700, letterSpacing: '0.1em' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                   <div><label style={LBL}>Vehicle Type *</label>
-                    <select required value={carForm.vehicle_type} onChange={e => setCarForm(f => ({ ...f, vehicle_type: e.target.value }))} style={{ ...INPUT, appearance: 'none' }} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'}>
+                    <select required value={carForm.vehicle_type} onChange={e => setCarForm(f => ({ ...f, vehicle_type: e.target.value }))} style={{ ...INPUT, appearance: 'none' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'}>
                       {['Car', 'SUV', 'Truck', 'Van', 'Motorcycle', 'Bus', 'Taxi', 'Other'].map(t => <option key={t}>{t}</option>)}
                     </select>
                   </div>
-                  <div><label style={LBL}>Color *</label><input required value={carForm.color} onChange={e => setCarForm(f => ({ ...f, color: e.target.value }))} placeholder="Black, White..." style={INPUT} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
+                  <div><label style={LBL}>Color *</label><input required value={carForm.color} onChange={e => setCarForm(f => ({ ...f, color: e.target.value }))} placeholder="Black, White..." style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
                 </div>
-                <div><label style={LBL}>Notes</label><input value={carForm.notes} onChange={e => setCarForm(f => ({ ...f, notes: e.target.value }))} placeholder="Optional notes..." style={INPUT} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
+                <div><label style={LBL}>Notes</label><input value={carForm.notes} onChange={e => setCarForm(f => ({ ...f, notes: e.target.value }))} placeholder="Optional notes..." style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
                 <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
-                  <button type="button" onClick={() => setShowModal(false)} style={{ flex: 1, padding: '11px', background: 'transparent', border: '1px solid #2e2b1e', borderRadius: '8px', color: '#7a6e52', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
-                  <button type="submit" disabled={loading} style={{ flex: 2, padding: '11px', background: 'linear-gradient(135deg, #b8923d, #d4ab5a)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit' }}>{loading ? 'Logging...' : 'Log Vehicle'}</button>
+                  <button type="button" onClick={() => setShowModal(false)} style={{ flex: 1, padding: '11px', background: 'transparent', border: '1px solid #2e2010', borderRadius: '8px', color: '#7a6650', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
+                  <button type="submit" disabled={loading} style={{ flex: 2, padding: '11px', background: 'linear-gradient(135deg, #93602a, #a8702e)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit' }}>{loading ? 'Logging...' : 'Log Vehicle'}</button>
                 </div>
               </form>
             )}
@@ -291,15 +291,15 @@ export default function SecurityContent({ visitors: initV, vehicles: initVeh, pa
             {tab === 'patrols' && (
               <form onSubmit={logPatrol} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 <div><label style={LBL}>Shift</label>
-                  <select value={pForm.shift} onChange={e => setPForm(f => ({ ...f, shift: e.target.value }))} style={{ ...INPUT, appearance: 'none' }} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'}>
+                  <select value={pForm.shift} onChange={e => setPForm(f => ({ ...f, shift: e.target.value }))} style={{ ...INPUT, appearance: 'none' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'}>
                     {['morning', 'afternoon', 'night'].map(s => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
                   </select>
                 </div>
-                <div><label style={LBL}>Areas Covered *</label><textarea required value={pForm.areas_covered} onChange={e => setPForm(f => ({ ...f, areas_covered: e.target.value }))} placeholder="Ground floor, parking, pool area, floors 1-3..." rows={2} style={TEXTAREA} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
-                <div><label style={LBL}>Observations</label><textarea value={pForm.observations} onChange={e => setPForm(f => ({ ...f, observations: e.target.value }))} placeholder="Everything normal, or note anything unusual..." rows={3} style={TEXTAREA} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
+                <div><label style={LBL}>Areas Covered *</label><textarea required value={pForm.areas_covered} onChange={e => setPForm(f => ({ ...f, areas_covered: e.target.value }))} placeholder="Ground floor, parking, pool area, floors 1-3..." rows={2} style={TEXTAREA} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+                <div><label style={LBL}>Observations</label><textarea value={pForm.observations} onChange={e => setPForm(f => ({ ...f, observations: e.target.value }))} placeholder="Everything normal, or note anything unusual..." rows={3} style={TEXTAREA} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
                 <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
-                  <button type="button" onClick={() => setShowModal(false)} style={{ flex: 1, padding: '11px', background: 'transparent', border: '1px solid #2e2b1e', borderRadius: '8px', color: '#7a6e52', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
-                  <button type="submit" disabled={loading} style={{ flex: 2, padding: '11px', background: 'linear-gradient(135deg, #b8923d, #d4ab5a)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit' }}>{loading ? 'Logging...' : 'Log Patrol'}</button>
+                  <button type="button" onClick={() => setShowModal(false)} style={{ flex: 1, padding: '11px', background: 'transparent', border: '1px solid #2e2010', borderRadius: '8px', color: '#7a6650', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
+                  <button type="submit" disabled={loading} style={{ flex: 2, padding: '11px', background: 'linear-gradient(135deg, #93602a, #a8702e)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit' }}>{loading ? 'Logging...' : 'Log Patrol'}</button>
                 </div>
               </form>
             )}
@@ -312,30 +312,30 @@ export default function SecurityContent({ visitors: initV, vehicles: initVeh, pa
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                   <div><label style={LBL}>Incident Type *</label>
-                    <select required value={iForm.incident_type} onChange={e => setIForm(f => ({ ...f, incident_type: e.target.value }))} style={{ ...INPUT, appearance: 'none' }} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'}>
+                    <select required value={iForm.incident_type} onChange={e => setIForm(f => ({ ...f, incident_type: e.target.value }))} style={{ ...INPUT, appearance: 'none' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'}>
                       {['Theft', 'Fight', 'Fire', 'Medical Emergency', 'Trespassing', 'Vandalism', 'Suspicious Activity', 'Noise Complaint', 'Other'].map(t => <option key={t}>{t}</option>)}
                     </select>
                   </div>
                   <div><label style={LBL}>Severity</label>
-                    <select value={iForm.severity} onChange={e => setIForm(f => ({ ...f, severity: e.target.value }))} style={{ ...INPUT, appearance: 'none' }} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'}>
+                    <select value={iForm.severity} onChange={e => setIForm(f => ({ ...f, severity: e.target.value }))} style={{ ...INPUT, appearance: 'none' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'}>
                       {['low', 'medium', 'high', 'critical'].map(s => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
                     </select>
                   </div>
                 </div>
-                <div><label style={LBL}>Location</label><input value={iForm.location} onChange={e => setIForm(f => ({ ...f, location: e.target.value }))} placeholder="Parking lot, Room 201, Lobby..." style={INPUT} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
-                <div><label style={LBL}>Description *</label><textarea required value={iForm.description} onChange={e => setIForm(f => ({ ...f, description: e.target.value }))} placeholder="Describe what happened..." rows={3} style={TEXTAREA} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
-                <div><label style={LBL}>Persons Involved</label><input value={iForm.persons_involved} onChange={e => setIForm(f => ({ ...f, persons_involved: e.target.value }))} placeholder="Names or descriptions..." style={INPUT} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
-                <div><label style={LBL}>Action Taken</label><textarea value={iForm.action_taken} onChange={e => setIForm(f => ({ ...f, action_taken: e.target.value }))} placeholder="What did you do about it..." rows={2} style={TEXTAREA} onFocus={e => e.target.style.borderColor = '#b8923d'} onBlur={e => e.target.style.borderColor = '#2e2b1e'} /></div>
+                <div><label style={LBL}>Location</label><input value={iForm.location} onChange={e => setIForm(f => ({ ...f, location: e.target.value }))} placeholder="Parking lot, Room 201, Lobby..." style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+                <div><label style={LBL}>Description *</label><textarea required value={iForm.description} onChange={e => setIForm(f => ({ ...f, description: e.target.value }))} placeholder="Describe what happened..." rows={3} style={TEXTAREA} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+                <div><label style={LBL}>Persons Involved</label><input value={iForm.persons_involved} onChange={e => setIForm(f => ({ ...f, persons_involved: e.target.value }))} placeholder="Names or descriptions..." style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+                <div><label style={LBL}>Action Taken</label><textarea value={iForm.action_taken} onChange={e => setIForm(f => ({ ...f, action_taken: e.target.value }))} placeholder="What did you do about it..." rows={2} style={TEXTAREA} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
                 <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
-                  <button type="button" onClick={() => setShowModal(false)} style={{ flex: 1, padding: '11px', background: 'transparent', border: '1px solid #2e2b1e', borderRadius: '8px', color: '#7a6e52', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
-                  <button type="submit" disabled={loading} style={{ flex: 2, padding: '11px', background: 'linear-gradient(135deg, #b8923d, #d4ab5a)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit' }}>{loading ? 'Reporting...' : 'Submit Incident'}</button>
+                  <button type="button" onClick={() => setShowModal(false)} style={{ flex: 1, padding: '11px', background: 'transparent', border: '1px solid #2e2010', borderRadius: '8px', color: '#7a6650', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
+                  <button type="submit" disabled={loading} style={{ flex: 2, padding: '11px', background: 'linear-gradient(135deg, #93602a, #a8702e)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit' }}>{loading ? 'Reporting...' : 'Submit Incident'}</button>
                 </div>
               </form>
             )}
           </div>
         </div>
       )}
-      <style>{`@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}} select option{background:#221f14;color:#f4e4c1} input::placeholder,textarea::placeholder{color:#3a3728}`}</style>
+      <style>{`@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}} select option{background:#221b10;color:#f0d3a8} input::placeholder,textarea::placeholder{color:#3a3220}`}</style>
     </div>
   )
 }
