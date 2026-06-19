@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { UserRole, ROLE_CONFIG } from '@/lib/roles'
-import { LayoutDashboard, Users, LogOut, Building2, ChevronRight, Shield, BedDouble, UserPlus, ClipboardList, Wrench, Coffee, CheckSquare, User, Bell } from 'lucide-react'
+import { LayoutDashboard, Users, LogOut, Building2, ChevronRight, Shield, BedDouble, UserPlus, ClipboardList, Wrench, Coffee, CheckSquare, User, Bell, Package } from 'lucide-react'
 
 interface SidebarProps { role: UserRole; fullName: string; email: string }
 
@@ -19,6 +19,8 @@ const NAV_ITEMS: Record<UserRole, { href: string; label: string; icon: React.Rea
     { href: '/dashboard/maintenance', label: 'Maintenance', icon: <Wrench size={15} /> },
     { href: '/dashboard/consumption', label: 'Consumption', icon: <Coffee size={15} /> },
     { href: '/dashboard/security', label: 'Security', icon: <Shield size={15} /> },
+    { href: '/dashboard/inventory', label: 'Inventory', icon: <Package size={15} /> },
+    { href: '/dashboard/breakfast-requests', label: 'Breakfast Orders', icon: <Coffee size={15} /> },
     { href: '/dashboard/notifications', label: 'Notifications', icon: <Bell size={15} /> },
     { href: '/dashboard/users', label: 'Staff Accounts', icon: <Users size={15} /> },
   ],
@@ -32,6 +34,8 @@ const NAV_ITEMS: Record<UserRole, { href: string; label: string; icon: React.Rea
     { href: '/dashboard/maintenance', label: 'Maintenance', icon: <Wrench size={15} /> },
     { href: '/dashboard/consumption', label: 'Consumption', icon: <Coffee size={15} /> },
     { href: '/dashboard/security', label: 'Security', icon: <Shield size={15} /> },
+    { href: '/dashboard/inventory', label: 'Inventory', icon: <Package size={15} /> },
+    { href: '/dashboard/breakfast-requests', label: 'Breakfast Orders', icon: <Coffee size={15} /> },
   ],
   receptionist: [
     { href: '/dashboard/staff', label: 'Dashboard', icon: <LayoutDashboard size={15} /> },
@@ -42,6 +46,7 @@ const NAV_ITEMS: Record<UserRole, { href: string; label: string; icon: React.Rea
     { href: '/dashboard/reports', label: 'Reports', icon: <ClipboardList size={15} /> },
     { href: '/dashboard/maintenance', label: 'Maintenance', icon: <Wrench size={15} /> },
     { href: '/dashboard/consumption', label: 'Consumption', icon: <Coffee size={15} /> },
+    { href: '/dashboard/breakfast-requests', label: 'Breakfast Orders', icon: <Coffee size={15} /> },
   ],
   housekeeping: [
     { href: '/dashboard/staff', label: 'Dashboard', icon: <LayoutDashboard size={15} /> },

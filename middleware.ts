@@ -76,6 +76,11 @@ export async function middleware(request: NextRequest) {
     if (pathname.startsWith('/dashboard/users') && role !== 'owner') {
       return NextResponse.redirect(new URL('/unauthorized', request.url))
     }
+
+    // Inventory — owner/manager only
+    if (pathname.startsWith('/dashboard/inventory') && !['owner', 'manager'].includes(role)) {
+      return NextResponse.redirect(new URL('/unauthorized', request.url))
+    }
   }
 
   return supabaseResponse
