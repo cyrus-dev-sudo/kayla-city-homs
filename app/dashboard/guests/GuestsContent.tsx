@@ -40,7 +40,7 @@ export default function GuestsContent({ guests }: { guests: Guest[] }) {
   const lastStay = (g: Guest) => g.reservations?.[0]
 
   return (
-    <div style={{ padding: '32px', animation: 'fadeIn 0.3s ease' }}>
+    <div className="dashboard-page" style={{ padding: '32px', animation: 'fadeIn 0.3s ease' }}>
       <div style={{ marginBottom: '24px' }}>
         <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '28px', fontWeight: 600, color: '#f0d3a8' }}>Guests</h2>
         <p style={{ fontSize: '13px', color: '#7a6650', marginTop: '4px' }}>{guests.length} guest profiles</p>

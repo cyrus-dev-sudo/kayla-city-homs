@@ -26,7 +26,7 @@ export default async function StaffDashboardPage() {
   return (
     <DashboardShell role={role} fullName={profile?.full_name ?? 'Staff'} email={profile?.email ?? ''}>
       <Topbar title={`${roleConfig.label} Dashboard`} subtitle={roleConfig.description} role={role} />
-      <div style={{ padding: '32px' }}>
+      <div className="dashboard-page" style={{ padding: '32px' }}>
         <div style={{
           background: '#1a160c',
           border: '1px solid #2e2010',

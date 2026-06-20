@@ -129,7 +129,7 @@ export default function UserManagementContent({ staff: initialStaff }: { staff: 
   }
 
   return (
-    <div style={{ padding: '32px', animation: 'fadeIn 0.3s ease' }}>
+    <div className="dashboard-page" style={{ padding: '32px', animation: 'fadeIn 0.3s ease' }}>
       {/* Header row */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
         <div>

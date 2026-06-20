@@ -24,7 +24,7 @@ export default async function ManagerDashboardPage() {
   return (
     <DashboardShell role={role} fullName={profile?.full_name ?? 'Manager'} email={profile?.email ?? ''}>
       <Topbar title="Manager Dashboard" subtitle="Daily operations overview" role={role} />
-      <div style={{ padding: '32px' }}>
+      <div className="dashboard-page" style={{ padding: '32px' }}>
         <div style={{
           background: '#1a160c',
           border: '1px solid #2e2010',

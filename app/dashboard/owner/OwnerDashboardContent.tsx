@@ -44,7 +44,7 @@ export default function OwnerDashboardContent({ staff, ownerName, kpis }: { staf
   const occupancyPct = kpis.totalRooms > 0 ? Math.round((kpis.occupiedRooms / kpis.totalRooms) * 100) : 0
 
   return (
-    <div style={{ padding: '32px', animation: 'fadeIn 0.3s ease' }}>
+    <div className="dashboard-page" style={{ padding: '32px', animation: 'fadeIn 0.3s ease' }}>
       {/* Welcome */}
       <div style={{ marginBottom: '32px' }}>
         <p style={{ fontSize: '12px', color: '#7a6650', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '6px' }}>{greeting}</p>

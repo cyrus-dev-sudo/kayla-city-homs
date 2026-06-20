@@ -1,5 +1,7 @@
 import { UserRole } from '@/lib/roles'
 import Sidebar from './Sidebar'
+import BottomNav from './BottomNav'
+import InstallBanner from './InstallBanner'
 
 interface DashboardShellProps {
   role: UserRole
@@ -11,8 +13,10 @@ interface DashboardShellProps {
 export default function DashboardShell({ role, fullName, email, children }: DashboardShellProps) {
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: '#111008' }}>
-      <Sidebar role={role} fullName={fullName} email={email} />
-      <main style={{
+      <div className="desktop-sidebar">
+        <Sidebar role={role} fullName={fullName} email={email} />
+      </div>
+      <main className="dashboard-main" style={{
         marginLeft: '240px',
         flex: 1,
         display: 'flex',
@@ -21,6 +25,17 @@ export default function DashboardShell({ role, fullName, email, children }: Dash
       }}>
         {children}
       </main>
+      <BottomNav role={role} fullName={fullName} />
+      <InstallBanner />
+      <style>{`
+        @media (max-width: 768px) {
+          .desktop-sidebar { display: none !important; }
+          .dashboard-main {
+            margin-left: 0 !important;
+            padding-bottom: 70px;
+          }
+        }
+      `}</style>
     </div>
   )
 }

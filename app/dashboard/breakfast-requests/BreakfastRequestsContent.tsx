@@ -53,7 +53,7 @@ export default function BreakfastRequestsContent({ requests: init, currentUserId
   }
 
   return (
-    <div style={{ padding: '32px', animation: 'fadeIn 0.3s ease' }}>
+    <div className="dashboard-page" style={{ padding: '32px', animation: 'fadeIn 0.3s ease' }}>
       <div style={{ marginBottom: '24px' }}>
         <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '28px', fontWeight: 600, color: '#f0d3a8' }}>Breakfast Requests</h2>
         <p style={{ fontSize: '13px', color: '#7a6650', marginTop: '4px' }}>{todayCount} requests today · {requests.filter(r => r.status === 'pending').length} pending</p>

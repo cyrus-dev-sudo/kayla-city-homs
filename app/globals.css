@@ -48,3 +48,7 @@
   ::-webkit-scrollbar-thumb { background: #3a3728; border-radius: 3px; }
   ::-webkit-scrollbar-thumb:hover { background: #93602a; }
 }
+
+@media (max-width: 480px) {
+  .dashboard-page { padding: 16px !important; }
+}

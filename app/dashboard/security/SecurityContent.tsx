@@ -93,7 +93,7 @@ export default function SecurityContent({ visitors: initV, vehicles: initVeh, pa
   const SEVERITY_COLORS: { [k: string]: string } = { low: '#4ade80', medium: '#fbbf24', high: '#f97316', critical: '#f43f5e' }
 
   return (
-    <div style={{ padding: '32px', animation: 'fadeIn 0.3s ease' }}>
+    <div className="dashboard-page" style={{ padding: '32px', animation: 'fadeIn 0.3s ease' }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
         <div>
