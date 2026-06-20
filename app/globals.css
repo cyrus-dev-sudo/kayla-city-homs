@@ -51,4 +51,5 @@
 
 @media (max-width: 480px) {
   .dashboard-page { padding: 16px !important; }
+  .owner-staff-grid { grid-template-columns: 1fr !important; }
 }

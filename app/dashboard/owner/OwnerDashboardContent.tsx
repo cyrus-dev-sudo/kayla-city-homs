@@ -101,7 +101,7 @@ export default function OwnerDashboardContent({ staff, ownerName, kpis }: { staf
       )}
 
       {/* Staff Overview */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '20px' }}>
+      <div className="owner-staff-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '20px' }}>
         <div style={{ background: '#1a160c', border: '1px solid #2e2010', borderRadius: '12px', overflow: 'hidden' }}>
           <div style={{ padding: '16px 20px', borderBottom: '1px solid #2e2010', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div>
@@ -117,7 +117,8 @@ export default function OwnerDashboardContent({ staff, ownerName, kpis }: { staf
               <Link href="/dashboard/users" style={{ display: 'inline-flex', marginTop: '12px', padding: '8px 16px', background: 'linear-gradient(135deg, #93602a, #a8702e)', color: '#111008', fontWeight: 600, fontSize: '12px', borderRadius: '6px', textDecoration: 'none' }}>Add First Staff</Link>
             </div>
           ) : (
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '480px' }}>
               <thead><tr style={{ background: '#221b10' }}>
                 {['Name', 'Role', 'Status', 'Joined'].map(h => <th key={h} style={{ padding: '10px 16px', textAlign: 'left', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7a6650', borderBottom: '1px solid #2e2010' }}>{h}</th>)}
               </tr></thead>
@@ -139,6 +140,7 @@ export default function OwnerDashboardContent({ staff, ownerName, kpis }: { staf
                 })}
               </tbody>
             </table>
+            </div>
           )}
         </div>
 

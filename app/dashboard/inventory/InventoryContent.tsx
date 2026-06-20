@@ -165,7 +165,8 @@ export default function InventoryContent({ items: initItems, transactions: initT
           {transactions.length === 0 ? (
             <div style={{ padding: '48px', textAlign: 'center' }}><History size={36} color="#3a3220" style={{ margin: '0 auto 12px' }} /><p style={{ color: '#7a6650' }}>No transactions yet</p></div>
           ) : (
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '600px' }}>
               <thead><tr style={{ background: '#221b10' }}>
                 {['Item', 'Type', 'Quantity', 'Reason', 'By', 'Date'].map(h => <th key={h} style={{ padding: '10px 14px', textAlign: 'left', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7a6650', borderBottom: '1px solid #2e2010' }}>{h}</th>)}
               </tr></thead>
@@ -187,6 +188,7 @@ export default function InventoryContent({ items: initItems, transactions: initT
                 ))}
               </tbody>
             </table>
+            </div>
           )}
         </div>
       )}

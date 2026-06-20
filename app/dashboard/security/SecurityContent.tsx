@@ -130,7 +130,8 @@ export default function SecurityContent({ visitors: initV, vehicles: initVeh, pa
           {visitors.length === 0 ? (
             <div style={{ padding: '48px', textAlign: 'center' }}><Users size={36} color="#3a3220" style={{ margin: '0 auto 12px' }} /><p style={{ color: '#7a6650' }}>No visitors logged today</p></div>
           ) : (
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '600px' }}>
               <thead><tr style={{ background: '#221b10' }}>
                 {['Visitor', 'Seeing', 'Room', 'Purpose', 'Time In', 'Time Out', 'Action'].map(h => <th key={h} style={{ padding: '10px 14px', textAlign: 'left', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7a6650', borderBottom: '1px solid #2e2010' }}>{h}</th>)}
               </tr></thead>
@@ -154,6 +155,7 @@ export default function SecurityContent({ visitors: initV, vehicles: initVeh, pa
                 ))}
               </tbody>
             </table>
+            </div>
           )}
         </div>
       )}
@@ -164,7 +166,8 @@ export default function SecurityContent({ visitors: initV, vehicles: initVeh, pa
           {vehicles.length === 0 ? (
             <div style={{ padding: '48px', textAlign: 'center' }}><Car size={36} color="#3a3220" style={{ margin: '0 auto 12px' }} /><p style={{ color: '#7a6650' }}>No vehicles logged</p></div>
           ) : (
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '600px' }}>
               <thead><tr style={{ background: '#221b10' }}>
                 {['Plate', 'Type', 'Color', 'Time In', 'Time Out', 'Action'].map(h => <th key={h} style={{ padding: '10px 14px', textAlign: 'left', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7a6650', borderBottom: '1px solid #2e2010' }}>{h}</th>)}
               </tr></thead>
@@ -187,6 +190,7 @@ export default function SecurityContent({ visitors: initV, vehicles: initVeh, pa
                 ))}
               </tbody>
             </table>
+            </div>
           )}
         </div>
       )}

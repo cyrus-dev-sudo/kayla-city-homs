@@ -65,7 +65,8 @@ export default function ConsumptionContent({ records: init, rooms, currentUserId
         {records.length === 0 ? (
           <div style={{ padding: '48px', textAlign: 'center' }}><Coffee size={36} color="#3a3220" style={{ margin: '0 auto 12px' }} /><p style={{ color: '#7a6650' }}>No consumption records yet</p></div>
         ) : (
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '600px' }}>
             <thead>
               <tr style={{ background: '#221b10' }}>
                 {['Room', 'Item', 'Type', 'Qty', 'Price', 'Shift', 'Time', 'By'].map(h => (
@@ -91,6 +92,7 @@ export default function ConsumptionContent({ records: init, rooms, currentUserId
               })}
             </tbody>
           </table>
+          </div>
         )}
       </div>
 

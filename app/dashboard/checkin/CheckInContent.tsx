@@ -199,7 +199,8 @@ export default function CheckInContent({ availableRooms, activeReservations, sta
         {reservations.length === 0 ? (
           <div style={{ padding: '48px', textAlign: 'center' }}><UserPlus size={36} color="#3a3220" style={{ margin: '0 auto 12px' }} /><p style={{ color: '#7a6650' }}>No guests currently checked in</p></div>
         ) : (
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '600px' }}>
             <thead><tr style={{ background: '#221b10' }}>
               {['Guest', 'Room', 'ID Number', 'Guests', 'Checked In', 'Action'].map(h => <th key={h} style={{ padding: '10px 16px', textAlign: 'left', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7a6650', borderBottom: '1px solid #2e2010' }}>{h}</th>)}
             </tr></thead>
@@ -223,6 +224,7 @@ export default function CheckInContent({ availableRooms, activeReservations, sta
               ))}
             </tbody>
           </table>
+          </div>
         )}
       </div>
 

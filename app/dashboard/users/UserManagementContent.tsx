@@ -205,7 +205,8 @@ export default function UserManagementContent({ staff: initialStaff }: { staff: 
             </p>
           </div>
         ) : (
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '600px' }}>
             <thead>
               <tr style={{ background: '#221b10' }}>
                 {['Staff Member', 'Role', 'Status', 'Phone', 'Joined', 'Actions'].map(h => (
@@ -306,6 +307,7 @@ export default function UserManagementContent({ staff: initialStaff }: { staff: 
               })}
             </tbody>
           </table>
+          </div>
         )}
       </div>
 

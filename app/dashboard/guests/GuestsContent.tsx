@@ -51,7 +51,7 @@ export default function GuestsContent({ guests }: { guests: Guest[] }) {
         <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search by ID number, name or phone..." style={{ width: '100%', padding: '11px 14px 11px 36px', background: '#1a160c', border: '1px solid #2e2010', borderRadius: '8px', color: '#f0d3a8', fontSize: '14px', outline: 'none', fontFamily: 'inherit' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} />
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: selected ? '1fr 380px' : '1fr', gap: '24px' }}>
+      <div className="guests-detail-grid" style={{ display: 'grid', gridTemplateColumns: selected ? '1fr 380px' : '1fr', gap: '24px' }}>
         <div style={{ background: '#1a160c', border: '1px solid #2e2010', borderRadius: '12px', overflow: 'hidden' }}>
           {filtered.length === 0 ? (
             <div style={{ padding: '48px', textAlign: 'center' }}>
@@ -60,7 +60,8 @@ export default function GuestsContent({ guests }: { guests: Guest[] }) {
               {search && <p style={{ color: '#3a3220', fontSize: '12px', marginTop: '6px' }}>Try searching by ID number for best results</p>}
             </div>
           ) : (
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '600px' }}>
               <thead><tr style={{ background: '#221b10' }}>
                 {['Guest', 'ID Number', 'Nationality', 'Stays', 'Last Room', 'Status'].map(h => (
                   <th key={h} style={{ padding: '10px 16px', textAlign: 'left', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7a6650', borderBottom: '1px solid #2e2010' }}>{h}</th>
@@ -90,6 +91,7 @@ export default function GuestsContent({ guests }: { guests: Guest[] }) {
                 })}
               </tbody>
             </table>
+            </div>
           )}
         </div>
 
