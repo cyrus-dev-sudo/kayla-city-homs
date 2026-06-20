@@ -59,7 +59,8 @@ export default function LoginPage() {
         security: '/dashboard/staff',
       }
 
-      router.push(roleData?.role ? routes[roleData.role] : '/dashboard/staff')
+      router.refresh()
+      window.location.href = roleData?.role ? routes[roleData.role] : '/dashboard/staff'
     }
   }
 
