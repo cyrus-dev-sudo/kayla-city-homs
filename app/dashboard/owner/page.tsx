@@ -12,7 +12,7 @@ export default async function OwnerDashboardPage() {
 
   const today = new Date().toISOString().split('T')[0]
 
-  const [staffRes, rolesRes, roomsRes, reservationsRes, tasksRes, reportsRes, maintenanceRes] = await Promise.all([
+  const [staffRes, rolesRes, roomsRes, reservationsRes, tasksRes, reportsRes, maintenanceRes, inventoryRes] = await Promise.all([
     supabase.from('profiles').select('id, full_name, email, status, created_at'),
     supabase.from('user_roles').select('user_id, role'),
     supabase.from('rooms').select('id, status'),
@@ -20,6 +20,7 @@ export default async function OwnerDashboardPage() {
     supabase.from('tasks').select('id, status').in('status', ['pending', 'in_progress']),
     supabase.from('reports').select('id, created_at').gte('created_at', today),
     supabase.from('maintenance_requests').select('id, status, priority').eq('status', 'open'),
+    supabase.from('inventory_items').select('id, name, current_stock, low_stock_threshold, unit'),
   ])
 
   const allStaff = (staffRes.data || []).filter(s => s.id !== user.id)
@@ -31,6 +32,8 @@ export default async function OwnerDashboardPage() {
   const tasks = tasksRes.data || []
   const reportsToday = reportsRes.data || []
   const openMaintenance = maintenanceRes.data || []
+  const inventoryItems = inventoryRes.data || []
+  const lowStockItems = inventoryItems.filter(i => i.current_stock <= i.low_stock_threshold)
 
   const kpis = {
     totalRooms: rooms.length,
@@ -45,12 +48,13 @@ export default async function OwnerDashboardPage() {
     openMaintenance: openMaintenance.length,
     criticalMaintenance: openMaintenance.filter(m => m.priority === 'critical').length,
     activeStaff: allStaff.filter(s => s.status === 'active').length,
+    lowStockCount: lowStockItems.length,
   }
 
   return (
     <DashboardShell role="owner" fullName={profile?.full_name ?? 'Owner'} email={profile?.email ?? ''}>
       <Topbar title="Owner Dashboard" subtitle="Kayla City ApartHotel" role="owner" />
-      <OwnerDashboardContent staff={staffWithRoles} ownerName={profile?.full_name ?? 'Owner'} kpis={kpis} />
+      <OwnerDashboardContent staff={staffWithRoles} ownerName={profile?.full_name ?? 'Owner'} kpis={kpis} lowStockItems={lowStockItems} />
     </DashboardShell>
   )
 }

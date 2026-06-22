@@ -21,7 +21,7 @@ function timeAgo(ts: string) {
 
 const ENTITY_COLORS: Record<string, string> = {
   check_in: '#4ade80', check_out: '#60a5fa', report: '#a78bfa',
-  maintenance: '#fbbf24', incident: '#f87171', task: '#34d399',
+  maintenance: '#fbbf24', incident: '#f87171', task: '#34d399', inventory: '#f97316',
 }
 
 export default function NotificationsContent({ notifications: init }: { notifications: Notification[] }) {

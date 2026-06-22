@@ -51,7 +51,7 @@ export default function NotificationBell() {
   function getEntityColor(type?: string) {
     const colors: Record<string, string> = {
       check_in: '#4ade80', check_out: '#60a5fa', report: '#a78bfa',
-      maintenance: '#fbbf24', incident: '#f87171', task: '#34d399',
+      maintenance: '#fbbf24', incident: '#f87171', task: '#34d399', inventory: '#f97316',
     }
     return colors[type || ''] || '#a8702e'
   }

@@ -60,7 +60,7 @@ export default function InventoryContent({ items: initItems, transactions: initT
       setTransactions(prev => [{ id: crypto.randomUUID(), transaction_type: type, quantity: qty, reason: stockForm.reason, created_at: new Date().toISOString(), item: { name: item.name, unit: item.unit } }, ...prev])
 
       if (newStock <= item.low_stock_threshold) {
-        await sendNotification({ title: 'Low Stock Alert', message: `${item.name} is running low: ${newStock} ${item.unit} remaining`, entity_type: 'maintenance' })
+        await sendNotification({ title: 'Low Stock Alert', message: `${item.name} is running low: ${newStock} ${item.unit} remaining`, entity_type: 'inventory' })
       }
       setShowStockModal(null)
       setStockForm({ quantity: '', reason: '' })

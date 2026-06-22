@@ -1,17 +1,22 @@
 'use client'
 
 import { UserRole, ROLE_CONFIG } from '@/lib/roles'
-import { Users, UserCheck, BedDouble, ClipboardList, Wrench, CheckSquare, UserX, DoorOpen } from 'lucide-react'
+import { Users, UserCheck, BedDouble, ClipboardList, Wrench, CheckSquare, UserX, DoorOpen, Package } from 'lucide-react'
 import Link from 'next/link'
 
 interface StaffMember {
   id: string; full_name: string; email: string; status: string; created_at: string; role: UserRole | null
 }
 
+interface LowStockItem {
+  id: string; name: string; current_stock: number; low_stock_threshold: number; unit: string
+}
+
 interface KPIs {
   totalRooms: number; occupiedRooms: number; availableRooms: number; cleaningRooms: number; maintenanceRooms: number
   checkedInGuests: number; pendingTasks: number; inProgressTasks: number
   reportsToday: number; openMaintenance: number; criticalMaintenance: number; activeStaff: number
+  lowStockCount: number
 }
 
 const ROLE_COLORS: Record<string, string> = {
@@ -37,7 +42,7 @@ function KPI({ label, value, icon, accent, href }: { label: string; value: numbe
   return href ? <Link href={href} style={{ textDecoration: 'none' }}>{content}</Link> : content
 }
 
-export default function OwnerDashboardContent({ staff, ownerName, kpis }: { staff: StaffMember[]; ownerName: string; kpis: KPIs }) {
+export default function OwnerDashboardContent({ staff, ownerName, kpis, lowStockItems }: { staff: StaffMember[]; ownerName: string; kpis: KPIs; lowStockItems: LowStockItem[] }) {
   const now = new Date()
   const hour = now.getHours()
   const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening'
@@ -90,13 +95,24 @@ export default function OwnerDashboardContent({ staff, ownerName, kpis }: { staf
         <KPI label="Open Maintenance" value={kpis.openMaintenance} icon={<Wrench size={16} />} accent={kpis.criticalMaintenance > 0 ? '#f43f5e' : '#fbbf24'} href="/dashboard/maintenance" />
         <KPI label="Active Staff" value={kpis.activeStaff} icon={<UserCheck size={16} />} accent="#4ade80" href="/dashboard/users" />
         <KPI label="Total Rooms" value={kpis.totalRooms} icon={<BedDouble size={16} />} accent="#a8702e" href="/dashboard/rooms" />
+        <KPI label="Low Stock Items" value={kpis.lowStockCount} icon={<Package size={16} />} accent={kpis.lowStockCount > 0 ? '#f97316' : '#4ade80'} href="/dashboard/inventory" />
       </div>
 
       {kpis.criticalMaintenance > 0 && (
-        <div style={{ padding: '12px 16px', background: 'rgba(244,63,94,0.08)', border: '1px solid rgba(244,63,94,0.2)', borderRadius: '10px', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div style={{ padding: '12px 16px', background: 'rgba(244,63,94,0.08)', border: '1px solid rgba(244,63,94,0.2)', borderRadius: '10px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Wrench size={14} color="#f43f5e" />
           <span style={{ fontSize: '13px', color: '#f43f5e', fontWeight: 600 }}>{kpis.criticalMaintenance} critical maintenance issue{kpis.criticalMaintenance > 1 ? 's' : ''} require immediate attention</span>
           <Link href="/dashboard/maintenance" style={{ marginLeft: 'auto', fontSize: '12px', color: '#f43f5e', textDecoration: 'underline' }}>View →</Link>
+        </div>
+      )}
+
+      {lowStockItems.length > 0 && (
+        <div style={{ padding: '12px 16px', background: 'rgba(249,115,22,0.08)', border: '1px solid rgba(249,115,22,0.2)', borderRadius: '10px', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+          <Package size={14} color="#f97316" />
+          <span style={{ fontSize: '13px', color: '#f97316', fontWeight: 600 }}>
+            {lowStockItems.length} item{lowStockItems.length > 1 ? 's' : ''} running low: {lowStockItems.slice(0, 4).map(i => i.name).join(', ')}{lowStockItems.length > 4 ? ` +${lowStockItems.length - 4} more` : ''}
+          </span>
+          <Link href="/dashboard/inventory" style={{ marginLeft: 'auto', fontSize: '12px', color: '#f97316', textDecoration: 'underline' }}>View →</Link>
         </div>
       )}
 
