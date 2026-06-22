@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Search, User, X, Phone, Mail, CreditCard, MapPin, Calendar } from 'lucide-react'
+import { createClient } from '@/lib/supabase/client'
+import { Search, User, X, Phone, Mail, CreditCard, MapPin, Calendar, Pencil } from 'lucide-react'
 
 interface Reservation {
   id: string; status: string; check_in_date: string; check_out_date?: string
@@ -25,9 +26,14 @@ function formatDate(d?: string) {
   return new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
-export default function GuestsContent({ guests }: { guests: Guest[] }) {
+export default function GuestsContent({ guests: initialGuests }: { guests: Guest[] }) {
+  const [guests, setGuests] = useState(initialGuests)
   const [search, setSearch] = useState('')
   const [selected, setSelected] = useState<Guest | null>(null)
+  const [editGuest, setEditGuest] = useState<Guest | null>(null)
+  const [editForm, setEditForm] = useState({ full_name: '', phone: '', email: '', id_type: '', id_number: '', nationality: '', address: '', notes: '' })
+  const [loading, setLoading] = useState(false)
+  const supabase = createClient()
 
   const filtered = guests.filter(g =>
     g.id_number?.toLowerCase().includes(search.toLowerCase()) ||
@@ -38,6 +44,34 @@ export default function GuestsContent({ guests }: { guests: Guest[] }) {
   const totalStays = (g: Guest) => g.reservations?.length ?? 0
   const totalSpent = (g: Guest) => g.reservations?.reduce((sum, r) => sum + (r.rate_at_checkin ?? 0), 0) ?? 0
   const lastStay = (g: Guest) => g.reservations?.[0]
+
+  function openEdit(guest: Guest) {
+    setEditGuest(guest)
+    setEditForm({
+      full_name: guest.full_name, phone: guest.phone ?? '', email: guest.email ?? '',
+      id_type: guest.id_type ?? '', id_number: guest.id_number ?? '',
+      nationality: guest.nationality ?? '', address: guest.address ?? '', notes: guest.notes ?? '',
+    })
+  }
+
+  async function saveEdit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!editGuest) return
+    setLoading(true)
+    const updates = {
+      full_name: editForm.full_name, phone: editForm.phone || null, email: editForm.email || null,
+      id_type: editForm.id_type || null, id_number: editForm.id_number || null,
+      nationality: editForm.nationality || null, address: editForm.address || null, notes: editForm.notes || null,
+    }
+    const { error } = await supabase.from('guests').update(updates).eq('id', editGuest.id)
+    if (!error) {
+      const updated = { ...editGuest, full_name: editForm.full_name, phone: editForm.phone, email: editForm.email, id_type: editForm.id_type, id_number: editForm.id_number, nationality: editForm.nationality, address: editForm.address, notes: editForm.notes }
+      setGuests(prev => prev.map(g => g.id === editGuest.id ? updated : g))
+      if (selected?.id === editGuest.id) setSelected(updated)
+      setEditGuest(null)
+    }
+    setLoading(false)
+  }
 
   return (
     <div className="dashboard-page" style={{ padding: '32px', animation: 'fadeIn 0.3s ease' }}>
@@ -104,7 +138,12 @@ export default function GuestsContent({ guests }: { guests: Guest[] }) {
                   <div style={{ width: '44px', height: '44px', borderRadius: '10px', background: 'rgba(212,171,90,0.1)', border: '1px solid rgba(212,171,90,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', fontWeight: 700, color: '#a8702e' }}>{selected.full_name.charAt(0).toUpperCase()}</div>
                   <div><div style={{ fontSize: '16px', fontWeight: 700, color: '#f0d3a8' }}>{selected.full_name}</div><div style={{ fontSize: '11px', color: '#7a6650', marginTop: '2px' }}>Guest since {formatDate(selected.created_at)}</div></div>
                 </div>
-                <button onClick={() => setSelected(null)} style={{ background: '#221b10', border: '1px solid #2e2010', borderRadius: '6px', width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#7a6650' }}><X size={12} /></button>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <button onClick={() => openEdit(selected)} style={{ display: 'flex', alignItems: 'center', gap: '5px', padding: '6px 12px', background: 'rgba(168,112,46,0.08)', border: '1px solid rgba(168,112,46,0.15)', borderRadius: '6px', color: '#93602a', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit' }}>
+                    <Pencil size={11} /> Edit
+                  </button>
+                  <button onClick={() => setSelected(null)} style={{ background: '#221b10', border: '1px solid #2e2010', borderRadius: '6px', width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#7a6650' }}><X size={12} /></button>
+                </div>
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '20px' }}>
@@ -151,7 +190,38 @@ export default function GuestsContent({ guests }: { guests: Guest[] }) {
           </div>
         )}
       </div>
-      <style>{`@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}} input::placeholder{color:#3a3220}`}</style>
+
+      {editGuest && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)', zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
+          <div style={{ background: '#1a160c', border: '1px solid #2e2010', borderRadius: '16px', padding: '32px', width: '100%', maxWidth: '480px', maxHeight: '90vh', overflowY: 'auto' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+              <div><div style={{ height: '2px', background: 'linear-gradient(90deg, #a8702e, transparent)', marginBottom: '16px', borderRadius: '2px' }} /><h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '20px', fontWeight: 600, color: '#f0d3a8' }}>Edit Guest</h3></div>
+              <button onClick={() => setEditGuest(null)} style={{ background: '#221b10', border: '1px solid #2e2010', borderRadius: '8px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#7a6650' }}><X size={14} /></button>
+            </div>
+            <form onSubmit={saveEdit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div><label style={{ display: 'block', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7a6650', marginBottom: '6px' }}>Full Name *</label><input required value={editForm.full_name} onChange={e => setEditForm(f => ({ ...f, full_name: e.target.value }))} style={{ width: '100%', padding: '10px 14px', background: '#221b10', border: '1px solid #2e2010', borderRadius: '8px', color: '#f0d3a8', fontSize: '14px', outline: 'none', fontFamily: 'inherit' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+                <div><label style={{ display: 'block', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7a6650', marginBottom: '6px' }}>Phone</label><input value={editForm.phone} onChange={e => setEditForm(f => ({ ...f, phone: e.target.value }))} style={{ width: '100%', padding: '10px 14px', background: '#221b10', border: '1px solid #2e2010', borderRadius: '8px', color: '#f0d3a8', fontSize: '14px', outline: 'none', fontFamily: 'inherit' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div><label style={{ display: 'block', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7a6650', marginBottom: '6px' }}>ID Type</label><input value={editForm.id_type} onChange={e => setEditForm(f => ({ ...f, id_type: e.target.value }))} style={{ width: '100%', padding: '10px 14px', background: '#221b10', border: '1px solid #2e2010', borderRadius: '8px', color: '#f0d3a8', fontSize: '14px', outline: 'none', fontFamily: 'inherit' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+                <div><label style={{ display: 'block', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7a6650', marginBottom: '6px' }}>ID Number</label><input value={editForm.id_number} onChange={e => setEditForm(f => ({ ...f, id_number: e.target.value }))} style={{ width: '100%', padding: '10px 14px', background: '#221b10', border: '1px solid #2e2010', borderRadius: '8px', color: '#f0d3a8', fontSize: '14px', outline: 'none', fontFamily: 'inherit' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div><label style={{ display: 'block', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7a6650', marginBottom: '6px' }}>Nationality</label><input value={editForm.nationality} onChange={e => setEditForm(f => ({ ...f, nationality: e.target.value }))} style={{ width: '100%', padding: '10px 14px', background: '#221b10', border: '1px solid #2e2010', borderRadius: '8px', color: '#f0d3a8', fontSize: '14px', outline: 'none', fontFamily: 'inherit' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+                <div><label style={{ display: 'block', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7a6650', marginBottom: '6px' }}>Email</label><input type="email" value={editForm.email} onChange={e => setEditForm(f => ({ ...f, email: e.target.value }))} style={{ width: '100%', padding: '10px 14px', background: '#221b10', border: '1px solid #2e2010', borderRadius: '8px', color: '#f0d3a8', fontSize: '14px', outline: 'none', fontFamily: 'inherit' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+              </div>
+              <div><label style={{ display: 'block', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7a6650', marginBottom: '6px' }}>Address</label><input value={editForm.address} onChange={e => setEditForm(f => ({ ...f, address: e.target.value }))} style={{ width: '100%', padding: '10px 14px', background: '#221b10', border: '1px solid #2e2010', borderRadius: '8px', color: '#f0d3a8', fontSize: '14px', outline: 'none', fontFamily: 'inherit' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+              <div><label style={{ display: 'block', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7a6650', marginBottom: '6px' }}>Notes</label><textarea value={editForm.notes} onChange={e => setEditForm(f => ({ ...f, notes: e.target.value }))} rows={2} style={{ width: '100%', padding: '10px 14px', background: '#221b10', border: '1px solid #2e2010', borderRadius: '8px', color: '#f0d3a8', fontSize: '14px', outline: 'none', fontFamily: 'inherit', resize: 'vertical' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+              <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
+                <button type="button" onClick={() => setEditGuest(null)} style={{ flex: 1, padding: '11px', background: 'transparent', border: '1px solid #2e2010', borderRadius: '8px', color: '#7a6650', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
+                <button type="submit" disabled={loading} style={{ flex: 2, padding: '11px', background: 'linear-gradient(135deg, #93602a, #a8702e)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit' }}>{loading ? 'Saving...' : 'Save Changes'}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+      <style>{`@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}} input::placeholder,textarea::placeholder{color:#3a3220}`}</style>
     </div>
   )
 }

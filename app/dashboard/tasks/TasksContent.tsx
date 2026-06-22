@@ -2,11 +2,11 @@
 
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { Plus, X, CheckCircle, Clock, AlertCircle, Circle } from 'lucide-react'
+import { Plus, X, CheckCircle, Clock, AlertCircle, Circle, Pencil, Trash2 } from 'lucide-react'
 
 interface Task {
   id: string; title: string; description?: string; priority: string; status: string
-  due_date?: string; created_at: string
+  due_date?: string; created_at: string; assigned_to?: string
   assigned_to_profile?: { full_name: string }
   assigned_by_profile?: { full_name: string }
 }
@@ -34,9 +34,11 @@ export default function TasksContent({ tasks: initialTasks, staff, canAssign, cu
 }) {
   const [tasks, setTasks] = useState(initialTasks)
   const [showModal, setShowModal] = useState(false)
+  const [editTask, setEditTask] = useState<Task | null>(null)
   const [filter, setFilter] = useState('all')
   const [loading, setLoading] = useState(false)
   const [form, setForm] = useState({ title: '', description: '', assigned_to: '', priority: 'medium', due_date: '', notes: '' })
+  const [editForm, setEditForm] = useState({ title: '', description: '', assigned_to: '', priority: 'medium', due_date: '' })
   const supabase = createClient()
 
   const filtered = filter === 'all' ? tasks : tasks.filter(t => t.status === filter)
@@ -64,6 +66,42 @@ export default function TasksContent({ tasks: initialTasks, staff, canAssign, cu
   async function updateStatus(taskId: string, status: string) {
     await supabase.from('tasks').update({ status, completed_at: status === 'completed' ? new Date().toISOString() : null }).eq('id', taskId)
     setTasks(prev => prev.map(t => t.id === taskId ? { ...t, status } : t))
+  }
+
+  function openEdit(task: Task) {
+    setEditTask(task)
+    setEditForm({
+      title: task.title, description: task.description ?? '',
+      assigned_to: task.assigned_to ?? '', priority: task.priority,
+      due_date: task.due_date ?? '',
+    })
+  }
+
+  async function saveEdit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!editTask) return
+    setLoading(true)
+    const { data, error } = await supabase.from('tasks').update({
+      title: editForm.title, description: editForm.description,
+      assigned_to: editForm.assigned_to || null, priority: editForm.priority,
+      due_date: editForm.due_date || null,
+    }).eq('id', editTask.id)
+      .select('*, assigned_to_profile:profiles!tasks_assigned_to_fkey(full_name), assigned_by_profile:profiles!tasks_assigned_by_fkey(full_name)').single()
+
+    if (!error && data) {
+      setTasks(prev => prev.map(t => t.id === editTask.id ? data : t))
+      setEditTask(null)
+    }
+    setLoading(false)
+  }
+
+  async function deleteTask(task: Task) {
+    if (!confirm(`Delete task "${task.title}"?`)) return
+    const { error } = await supabase.from('tasks').delete().eq('id', task.id)
+    if (!error) {
+      setTasks(prev => prev.filter(t => t.id !== task.id))
+      setEditTask(null)
+    }
   }
 
   return (
@@ -129,6 +167,11 @@ export default function TasksContent({ tasks: initialTasks, staff, canAssign, cu
                   {task.status === 'pending' && <button onClick={() => updateStatus(task.id, 'in_progress')} style={{ padding: '4px 10px', background: 'rgba(96,165,250,0.1)', border: '1px solid rgba(96,165,250,0.2)', borderRadius: '6px', fontSize: '11px', color: '#60a5fa', cursor: 'pointer', fontFamily: 'inherit' }}>Start</button>}
                   {task.status === 'in_progress' && <button onClick={() => updateStatus(task.id, 'completed')} style={{ padding: '4px 10px', background: 'rgba(74,222,128,0.1)', border: '1px solid rgba(74,222,128,0.2)', borderRadius: '6px', fontSize: '11px', color: '#4ade80', cursor: 'pointer', fontFamily: 'inherit' }}>Complete</button>}
                   {canAssign && task.status !== 'cancelled' && <button onClick={() => updateStatus(task.id, 'cancelled')} style={{ padding: '4px 10px', background: 'transparent', border: '1px solid #2e2010', borderRadius: '6px', fontSize: '11px', color: '#7a6650', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>}
+                  {canAssign && (
+                    <button onClick={() => openEdit(task)} style={{ display: 'flex', alignItems: 'center', gap: '4px', padding: '4px 10px', background: 'rgba(168,112,46,0.08)', border: '1px solid rgba(168,112,46,0.15)', borderRadius: '6px', fontSize: '11px', color: '#93602a', cursor: 'pointer', fontFamily: 'inherit', marginLeft: 'auto' }}>
+                      <Pencil size={11} /> Edit
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -167,6 +210,46 @@ export default function TasksContent({ tasks: initialTasks, staff, canAssign, cu
               <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
                 <button type="button" onClick={() => setShowModal(false)} style={{ flex: 1, padding: '11px', background: 'transparent', border: '1px solid #2e2010', borderRadius: '8px', color: '#7a6650', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
                 <button type="submit" disabled={loading} style={{ flex: 2, padding: '11px', background: 'linear-gradient(135deg, #93602a, #a8702e)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit' }}>{loading ? 'Assigning...' : 'Assign Task'}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Task Modal */}
+      {editTask && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)', zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
+          <div style={{ background: '#1a160c', border: '1px solid #2e2010', borderRadius: '16px', padding: '32px', width: '100%', maxWidth: '480px', maxHeight: '90vh', overflowY: 'auto' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
+              <div>
+                <div style={{ height: '2px', background: 'linear-gradient(90deg, #a8702e, transparent)', marginBottom: '16px', borderRadius: '2px' }} />
+                <h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '20px', fontWeight: 600, color: '#f0d3a8' }}>Edit Task</h3>
+              </div>
+              <button onClick={() => setEditTask(null)} style={{ background: '#221b10', border: '1px solid #2e2010', borderRadius: '8px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#7a6650' }}><X size={14} /></button>
+            </div>
+            <form onSubmit={saveEdit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div><label style={LBL}>Task Title *</label><input required value={editForm.title} onChange={e => setEditForm(f => ({ ...f, title: e.target.value }))} style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+              <div><label style={LBL}>Description</label><textarea value={editForm.description} onChange={e => setEditForm(f => ({ ...f, description: e.target.value }))} rows={2} style={{ ...INPUT, resize: 'vertical' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div><label style={LBL}>Assign To</label>
+                  <select value={editForm.assigned_to} onChange={e => setEditForm(f => ({ ...f, assigned_to: e.target.value }))} style={{ ...INPUT, appearance: 'none' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'}>
+                    <option value="">All Staff</option>
+                    {staff.map(s => <option key={s.id} value={s.id}>{s.full_name}</option>)}
+                  </select>
+                </div>
+                <div><label style={LBL}>Priority</label>
+                  <select value={editForm.priority} onChange={e => setEditForm(f => ({ ...f, priority: e.target.value }))} style={{ ...INPUT, appearance: 'none' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'}>
+                    {Object.entries(PRIORITY_CONFIG).map(([v, c]) => <option key={v} value={v}>{c.label}</option>)}
+                  </select>
+                </div>
+              </div>
+              <div><label style={LBL}>Due Date</label><input type="date" value={editForm.due_date} onChange={e => setEditForm(f => ({ ...f, due_date: e.target.value }))} style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+              <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
+                <button type="button" onClick={() => deleteTask(editTask)} style={{ padding: '11px 14px', background: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.2)', borderRadius: '8px', color: '#f87171', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Trash2 size={13} /> Delete
+                </button>
+                <button type="button" onClick={() => setEditTask(null)} style={{ flex: 1, padding: '11px', background: 'transparent', border: '1px solid #2e2010', borderRadius: '8px', color: '#7a6650', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
+                <button type="submit" disabled={loading} style={{ flex: 1, padding: '11px', background: 'linear-gradient(135deg, #93602a, #a8702e)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit' }}>{loading ? 'Saving...' : 'Save Changes'}</button>
               </div>
             </form>
           </div>

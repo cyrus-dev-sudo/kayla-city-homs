@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { Plus, X, Package, AlertTriangle, ArrowDownCircle, ArrowUpCircle, History } from 'lucide-react'
+import { Plus, X, Package, AlertTriangle, ArrowDownCircle, ArrowUpCircle, History, Pencil, Trash2 } from 'lucide-react'
 import { sendNotification } from '@/lib/notify'
 
 interface Item {
@@ -29,9 +29,11 @@ export default function InventoryContent({ items: initItems, transactions: initT
   const [category, setCategory] = useState<string>('all')
   const [showStockModal, setShowStockModal] = useState<{ item: Item; type: 'stock_in' | 'stock_out' } | null>(null)
   const [showAddModal, setShowAddModal] = useState(false)
+  const [editItem, setEditItem] = useState<Item | null>(null)
   const [loading, setLoading] = useState(false)
   const [stockForm, setStockForm] = useState({ quantity: '', reason: '' })
   const [addForm, setAddForm] = useState({ name: '', category: 'breakfast', unit: 'pcs', current_stock: '0', low_stock_threshold: '5', unit_cost: '', linked_consumption_name: '' })
+  const [editForm, setEditForm] = useState({ name: '', category: 'breakfast', unit: 'pcs', current_stock: '0', low_stock_threshold: '5', unit_cost: '', linked_consumption_name: '', notes: '' })
   const supabase = createClient()
 
   const filtered = category === 'all' ? items : items.filter(i => i.category === category)
@@ -86,6 +88,53 @@ export default function InventoryContent({ items: initItems, transactions: initT
     setLoading(false)
   }
 
+  function openEdit(item: Item) {
+    setEditItem(item)
+    setEditForm({
+      name: item.name, category: item.category, unit: item.unit,
+      current_stock: String(item.current_stock), low_stock_threshold: String(item.low_stock_threshold),
+      unit_cost: String(item.unit_cost ?? 0), linked_consumption_name: item.linked_consumption_name ?? '',
+      notes: item.notes ?? '',
+    })
+  }
+
+  async function saveEdit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!editItem) return
+    setLoading(true)
+    const updates = {
+      name: editForm.name, category: editForm.category, unit: editForm.unit,
+      current_stock: parseFloat(editForm.current_stock) || 0,
+      low_stock_threshold: parseFloat(editForm.low_stock_threshold) || 5,
+      unit_cost: parseFloat(editForm.unit_cost) || 0,
+      linked_consumption_name: editForm.linked_consumption_name || null,
+      notes: editForm.notes || null,
+    }
+    const { error } = await supabase.from('inventory_items').update(updates).eq('id', editItem.id)
+    if (!error) {
+      setItems(prev => prev.map(i => i.id === editItem.id ? {
+        ...i,
+        name: editForm.name, category: editForm.category, unit: editForm.unit,
+        current_stock: parseFloat(editForm.current_stock) || 0,
+        low_stock_threshold: parseFloat(editForm.low_stock_threshold) || 5,
+        unit_cost: parseFloat(editForm.unit_cost) || 0,
+        linked_consumption_name: editForm.linked_consumption_name || undefined,
+        notes: editForm.notes || undefined,
+      } : i))
+      setEditItem(null)
+    }
+    setLoading(false)
+  }
+
+  async function deleteItem(item: Item) {
+    if (!confirm(`Delete "${item.name}"? This cannot be undone.`)) return
+    const { error } = await supabase.from('inventory_items').delete().eq('id', item.id)
+    if (!error) {
+      setItems(prev => prev.filter(i => i.id !== item.id))
+      setEditItem(null)
+    }
+  }
+
   return (
     <div className="dashboard-page" style={{ padding: '32px', animation: 'fadeIn 0.3s ease' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
@@ -138,7 +187,12 @@ export default function InventoryContent({ items: initItems, transactions: initT
                       <div style={{ fontSize: '14px', fontWeight: 600, color: '#c4ab85' }}>{item.name}</div>
                       <span style={{ fontSize: '10px', color, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{CATEGORY_LABELS[item.category]}</span>
                     </div>
-                    {isLow && <AlertTriangle size={14} color="#f87171" />}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      {isLow && <AlertTriangle size={14} color="#f87171" />}
+                      <button onClick={() => openEdit(item)} style={{ padding: '4px', background: 'rgba(168,112,46,0.08)', border: '1px solid rgba(168,112,46,0.15)', borderRadius: '6px', color: '#93602a', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                        <Pencil size={11} />
+                      </button>
+                    </div>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginBottom: '12px' }}>
                     <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '26px', fontWeight: 700, color: isLow ? '#f87171' : '#f0d3a8' }}>{item.current_stock}</span>
@@ -237,6 +291,38 @@ export default function InventoryContent({ items: initItems, transactions: initT
               <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
                 <button type="button" onClick={() => setShowAddModal(false)} style={{ flex: 1, padding: '11px', background: 'transparent', border: '1px solid #2e2010', borderRadius: '8px', color: '#7a6650', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
                 <button type="submit" disabled={loading} style={{ flex: 2, padding: '11px', background: 'linear-gradient(135deg, #93602a, #a8702e)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit' }}>{loading ? 'Adding...' : 'Add Item'}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {editItem && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)', zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
+          <div style={{ background: '#1a160c', border: '1px solid #2e2010', borderRadius: '16px', padding: '32px', width: '100%', maxWidth: '440px', maxHeight: '90vh', overflowY: 'auto' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+              <div><div style={{ height: '2px', background: 'linear-gradient(90deg, #a8702e, transparent)', marginBottom: '16px', borderRadius: '2px' }} /><h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '20px', fontWeight: 600, color: '#f0d3a8' }}>Edit {editItem.name}</h3></div>
+              <button onClick={() => setEditItem(null)} style={{ background: '#221b10', border: '1px solid #2e2010', borderRadius: '8px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#7a6650' }}><X size={14} /></button>
+            </div>
+            <form onSubmit={saveEdit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <div><label style={LBL}>Item Name *</label><input required value={editForm.name} onChange={e => setEditForm(f => ({ ...f, name: e.target.value }))} style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div><label style={LBL}>Category</label><select value={editForm.category} onChange={e => setEditForm(f => ({ ...f, category: e.target.value }))} style={{ ...INPUT, appearance: 'none' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'}>{Object.entries(CATEGORY_LABELS).map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select></div>
+                <div><label style={LBL}>Unit</label><input value={editForm.unit} onChange={e => setEditForm(f => ({ ...f, unit: e.target.value }))} placeholder="pcs, kg, crates..." style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div><label style={LBL}>Current Stock</label><input type="number" value={editForm.current_stock} onChange={e => setEditForm(f => ({ ...f, current_stock: e.target.value }))} style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+                <div><label style={LBL}>Low Stock Alert At</label><input type="number" value={editForm.low_stock_threshold} onChange={e => setEditForm(f => ({ ...f, low_stock_threshold: e.target.value }))} style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+              </div>
+              <div><label style={LBL}>Unit Cost (GH₵, optional)</label><input type="number" value={editForm.unit_cost} onChange={e => setEditForm(f => ({ ...f, unit_cost: e.target.value }))} placeholder="0.00" style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+              <div><label style={LBL}>Linked Consumption Item (for auto-deduct)</label><input value={editForm.linked_consumption_name} onChange={e => setEditForm(f => ({ ...f, linked_consumption_name: e.target.value }))} placeholder="e.g. Milo" style={INPUT} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+              <div><label style={LBL}>Notes</label><textarea value={editForm.notes} onChange={e => setEditForm(f => ({ ...f, notes: e.target.value }))} rows={2} style={{ ...INPUT, resize: 'vertical' }} onFocus={e => e.target.style.borderColor = '#93602a'} onBlur={e => e.target.style.borderColor = '#2e2010'} /></div>
+              <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
+                <button type="button" onClick={() => deleteItem(editItem)} style={{ padding: '11px 14px', background: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.2)', borderRadius: '8px', color: '#f87171', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Trash2 size={13} /> Delete
+                </button>
+                <button type="button" onClick={() => setEditItem(null)} style={{ flex: 1, padding: '11px', background: 'transparent', border: '1px solid #2e2010', borderRadius: '8px', color: '#7a6650', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
+                <button type="submit" disabled={loading} style={{ flex: 1, padding: '11px', background: 'linear-gradient(135deg, #93602a, #a8702e)', color: '#111008', fontWeight: 700, fontSize: '13px', border: 'none', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit' }}>{loading ? 'Saving...' : 'Save Changes'}</button>
               </div>
             </form>
           </div>
