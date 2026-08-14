@@ -1,33 +1,33 @@
 @import "tailwindcss";
 
 @theme {
-  /* Bronze/copper tones matched to Kayla City logo */
-  --color-brand-950: #0f0c07;
-  --color-brand-900: #1c1408;
-  --color-brand-800: #2e2010;
-  --color-brand-700: #3d2a16;
-  --color-brand-600: #6b471f;
-  --color-brand-500: #93602a;
-  --color-brand-400: #a8702e;
-  --color-brand-300: #c08a42;
-  --color-brand-200: #d9ab6f;
-  --color-brand-100: #f0d3a8;
-  --color-brand-50: #faf0e2;
+  /* Navy tones matched to Image 2 hotel app reference */
+  --color-brand-950: #0a1220;
+  --color-brand-900: #0f1c33;
+  --color-brand-800: #152847;
+  --color-brand-700: #1c355c;
+  --color-brand-600: #26456f;
+  --color-brand-500: #2f5482;
+  --color-brand-400: #3d6699;
+  --color-brand-300: #6b8bb3;
+  --color-brand-200: #a3bcd6;
+  --color-brand-100: #d4e0ee;
+  --color-brand-50: #eef3f9;
 
-  --color-surface-dark: #111008;
-  --color-surface-card: #1a1710;
-  --color-surface-elevated: #221f14;
-  --color-surface-border: #2e2b1e;
-  --color-surface-muted: #3a3728;
+  --color-surface-dark: #f5efe4;
+  --color-surface-card: #ffffff;
+  --color-surface-elevated: #faf6ee;
+  --color-surface-border: #e8ddc9;
+  --color-surface-muted: #d9cbb0;
 
-  --color-text-primary: #f0d3a8;
-  --color-text-secondary: #c4ab85;
-  --color-text-muted: #7a6650;
-  --color-text-inverse: #0f0c07;
+  --color-text-primary: #15243d;
+  --color-text-secondary: #5c6b80;
+  --color-text-muted: #94a0b0;
+  --color-text-inverse: #ffffff;
 
-  --color-accent-gold: #a8702e;
-  --color-accent-gold-glow: rgba(168, 112, 46, 0.18);
-  --color-accent-chrome: #b8bcc2;
+  --color-accent-gold: #b98a4a;
+  --color-accent-gold-glow: rgba(185, 138, 74, 0.18);
+  --color-accent-chrome: #8fa3ba;
 
   --font-display: 'Cormorant Garamond', 'Georgia', serif;
   --font-body: 'Inter', system-ui, sans-serif;
@@ -37,16 +37,16 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { -webkit-font-smoothing: antialiased; }
   body {
-    background-color: #111008;
-    color: #f0d3a8;
+    background-color: #f5efe4;
+    color: #15243d;
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 14px;
     line-height: 1.6;
   }
   ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: #111008; }
-  ::-webkit-scrollbar-thumb { background: #3a3728; border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: #93602a; }
+  ::-webkit-scrollbar-track { background: #f5efe4; }
+  ::-webkit-scrollbar-thumb { background: #d9cbb0; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #b98a4a; }
 }
 
 @media (max-width: 480px) {
