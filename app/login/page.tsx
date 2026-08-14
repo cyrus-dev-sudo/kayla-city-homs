@@ -30,7 +30,6 @@ export default function LoginPage() {
     }
 
     if (data.user) {
-      // Check account status
       const { data: profile } = await supabase
         .from('profiles')
         .select('status')
@@ -44,7 +43,6 @@ export default function LoginPage() {
         return
       }
 
-      // Get role and redirect
       const { data: roleData } = await supabase
         .from('user_roles')
         .select('role')
@@ -67,7 +65,7 @@ export default function LoginPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#111008',
+      background: '#f5efe4',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -83,7 +81,7 @@ export default function LoginPage() {
         transform: 'translateX(-50%)',
         width: '600px',
         height: '600px',
-        background: 'radial-gradient(circle, rgba(212,171,90,0.06) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(185,138,74,0.10) 0%, transparent 70%)',
         pointerEvents: 'none',
       }} />
 
@@ -91,7 +89,7 @@ export default function LoginPage() {
       <div style={{
         position: 'absolute',
         inset: 0,
-        backgroundImage: 'linear-gradient(rgba(212,171,90,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(212,171,90,0.03) 1px, transparent 1px)',
+        backgroundImage: 'linear-gradient(rgba(21,36,61,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(21,36,61,0.03) 1px, transparent 1px)',
         backgroundSize: '48px 48px',
         pointerEvents: 'none',
       }} />
@@ -106,7 +104,7 @@ export default function LoginPage() {
             alignItems: 'center',
             justifyContent: 'center',
             margin: '0 auto 16px',
-            filter: 'drop-shadow(0 8px 24px rgba(168,112,46,0.25))',
+            filter: 'drop-shadow(0 8px 24px rgba(185,138,74,0.25))',
           }}>
             <Image src="/icons/logo-source.png" alt="Kayla City" width={88} height={88} style={{ objectFit: 'contain' }} priority />
           </div>
@@ -114,7 +112,7 @@ export default function LoginPage() {
             fontFamily: "'Cormorant Garamond', Georgia, serif",
             fontSize: '26px',
             fontWeight: 600,
-            color: '#f0d3a8',
+            color: '#15243d',
             letterSpacing: '0.02em',
             lineHeight: 1.2,
           }}>
@@ -122,7 +120,7 @@ export default function LoginPage() {
           </h1>
           <p style={{
             fontSize: '12px',
-            color: '#7a6650',
+            color: '#94a0b0',
             marginTop: '6px',
             letterSpacing: '0.12em',
             textTransform: 'uppercase',
@@ -133,15 +131,16 @@ export default function LoginPage() {
 
         {/* Login card */}
         <div style={{
-          background: '#1a160c',
-          border: '1px solid #2e2010',
+          background: '#ffffff',
+          border: '1px solid #e8ddc9',
           borderRadius: '16px',
           padding: '32px',
+          boxShadow: '0 4px 24px rgba(21,36,61,0.06)',
         }}>
           {/* Gold top bar */}
           <div style={{
             height: '2px',
-            background: 'linear-gradient(90deg, #a8702e, transparent)',
+            background: 'linear-gradient(90deg, #b98a4a, transparent)',
             borderRadius: '2px',
             marginBottom: '28px',
           }} />
@@ -149,7 +148,7 @@ export default function LoginPage() {
           <h2 style={{
             fontSize: '16px',
             fontWeight: 600,
-            color: '#c4ab85',
+            color: '#5c6b80',
             marginBottom: '24px',
           }}>
             Sign in to your account
@@ -161,7 +160,7 @@ export default function LoginPage() {
               background: 'rgba(248,113,113,0.08)',
               border: '1px solid rgba(248,113,113,0.2)',
               borderRadius: '8px',
-              color: '#f87171',
+              color: '#dc2626',
               fontSize: '13px',
               marginBottom: '20px',
             }}>
@@ -177,7 +176,7 @@ export default function LoginPage() {
                 fontWeight: 600,
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',
-                color: '#7a6650',
+                color: '#94a0b0',
                 marginBottom: '8px',
               }}>
                 Email Address
@@ -191,17 +190,17 @@ export default function LoginPage() {
                 style={{
                   width: '100%',
                   padding: '11px 14px',
-                  background: '#221b10',
-                  border: '1px solid #2e2010',
+                  background: '#faf6ee',
+                  border: '1px solid #e8ddc9',
                   borderRadius: '8px',
-                  color: '#f0d3a8',
+                  color: '#15243d',
                   fontSize: '14px',
                   outline: 'none',
                   transition: 'border-color 0.2s',
                   fontFamily: 'inherit',
                 }}
-                onFocus={e => e.target.style.borderColor = '#93602a'}
-                onBlur={e => e.target.style.borderColor = '#2e2010'}
+                onFocus={e => e.target.style.borderColor = '#b98a4a'}
+                onBlur={e => e.target.style.borderColor = '#e8ddc9'}
               />
             </div>
 
@@ -212,7 +211,7 @@ export default function LoginPage() {
                 fontWeight: 600,
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',
-                color: '#7a6650',
+                color: '#94a0b0',
                 marginBottom: '8px',
               }}>
                 Password
@@ -227,17 +226,17 @@ export default function LoginPage() {
                   style={{
                     width: '100%',
                     padding: '11px 44px 11px 14px',
-                    background: '#221b10',
-                    border: '1px solid #2e2010',
+                    background: '#faf6ee',
+                    border: '1px solid #e8ddc9',
                     borderRadius: '8px',
-                    color: '#f0d3a8',
+                    color: '#15243d',
                     fontSize: '14px',
                     outline: 'none',
                     transition: 'border-color 0.2s',
                     fontFamily: 'inherit',
                   }}
-                  onFocus={e => e.target.style.borderColor = '#93602a'}
-                  onBlur={e => e.target.style.borderColor = '#2e2010'}
+                  onFocus={e => e.target.style.borderColor = '#b98a4a'}
+                  onBlur={e => e.target.style.borderColor = '#e8ddc9'}
                 />
                 <button
                   type="button"
@@ -249,7 +248,7 @@ export default function LoginPage() {
                     transform: 'translateY(-50%)',
                     background: 'none',
                     border: 'none',
-                    color: '#7a6650',
+                    color: '#94a0b0',
                     cursor: 'pointer',
                     padding: '4px',
                     display: 'flex',
@@ -263,7 +262,7 @@ export default function LoginPage() {
             <div style={{ textAlign: 'right', marginTop: '-8px' }}>
               <Link href="/reset-password" style={{
                 fontSize: '12px',
-                color: '#93602a',
+                color: '#b98a4a',
                 textDecoration: 'none',
                 transition: 'color 0.2s',
               }}>
@@ -277,8 +276,8 @@ export default function LoginPage() {
               style={{
                 width: '100%',
                 padding: '12px',
-                background: loading ? '#3d3016' : 'linear-gradient(135deg, #93602a, #a8702e)',
-                color: loading ? '#7a6650' : '#111008',
+                background: loading ? '#d9cbb0' : 'linear-gradient(135deg, #a8702e, #b98a4a)',
+                color: loading ? '#94a0b0' : '#ffffff',
                 fontWeight: 700,
                 fontSize: '13px',
                 letterSpacing: '0.05em',
@@ -298,8 +297,8 @@ export default function LoginPage() {
                 <>
                   <div style={{
                     width: '16px', height: '16px',
-                    border: '2px solid #7a6650',
-                    borderTopColor: '#a8702e',
+                    border: '2px solid #ffffff',
+                    borderTopColor: 'transparent',
                     borderRadius: '50%',
                     animation: 'spin 0.6s linear infinite',
                   }} />
@@ -313,7 +312,7 @@ export default function LoginPage() {
         <p style={{
           textAlign: 'center',
           fontSize: '11px',
-          color: '#3a3220',
+          color: '#94a0b0',
           marginTop: '24px',
         }}>
           Staff access only · Contact the owner for an account
@@ -322,7 +321,7 @@ export default function LoginPage() {
 
       <style>{`
         @keyframes spin { to { transform: rotate(360deg); } }
-        input::placeholder { color: #3a3220; }
+        input::placeholder { color: #b0a68f; }
       `}</style>
     </div>
   )
